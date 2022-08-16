@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta content="width=device-width, initial-scale=1" name="viewport" />
+	<title>Login</title>
+	<!-- Favicon-->
+	<link rel="icon" href="{% static '/dassets/images/favicon.ico' %}" type="image/x-icon">
+	<!-- Plugins Core Css -->
+	<link href="{% static '/dassets/css/app.min.css' %}" rel="stylesheet">
+	<!-- Custom Css -->
+	<link href="{% static '/dassets/css/style.css' %}" rel="stylesheet" />
+	<link href="{% static '/dassets/css/pages/authentication.css' %}" rel="stylesheet" />
+</head>
+
+<body>
+	<div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100">
+				<form class="login100-form validate-form" action="/Admin_Login" method="POST"  >
+					{% csrf_token %}
+					<span class="login100-form-title p-b-45">
+						Login
+					</span>
+
+
+					<div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
+						<input class="input100" type="text" name="Email">
+						<span class="focus-input100"></span>
+						<span class="label-input100">Email</span>
+					</div>
+
+
+					<div class="wrap-input100 validate-input" data-validate="Password is required">
+						<input class="input100" type="password" name="Password">
+						<span class="focus-input100"></span>
+						<span class="label-input100">Password</span>
+					</div>
+					<br><br>
+					<div class="container-login100-form-btn">
+						<button class="login100-form-btn">
+							Login
+						</button>
+					</div>
+					<br>
+
+					
+					
+				</form>
+
+				<div class="login100-more"
+					style="background-image: url('../../static/dassets/images/pages/bg-01.png');">
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Plugins Js -->
+	<script src="{% static '/dassets/js/app.min.js' %}"></script>
+	<script src="{% static '/dassets/js/pages/examples/pages.js' %}"></script>
+</body>
+
+</html>

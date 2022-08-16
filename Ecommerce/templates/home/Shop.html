@@ -1,0 +1,110 @@
+{% extends 'home/public/header.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block body_data %}
+
+    <!--breadcrumbs area start-->
+    <div class="breadcrumbs_area">
+        <div class="container">   
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb_content">
+                        <ul>
+                            <li><a href="index.html">home</a></li>
+                            <li>></li>
+                            <li>shop</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>         
+    </div>
+    <!--breadcrumbs area end-->
+    
+    <!--shop  area start-->
+    <div class="shop_area shop_fullwidth shop_reverse">
+        <div class="container">
+            <div class="row">
+                <div class="col-9">
+                  
+                     <div class="tab-content">
+                        <div class="tab-pane grid_view fade show active" id="large" role="tabpanel">
+                            <div class="row">
+
+                                {% for productsList in productsList %}
+                               <div class="col-lg-3 col-md-4 col-sm-6">
+                                    <div class="single_product">
+                                        <div class="product_thumb">
+                                            <a class="primary_img" href="/Products_details/{{productsList.id}}/"><img src="/media/{{ productsList.Image }}" alt=""></a>
+                                            <a class="secondary_img" href="/Products_details/{{productsList.id}}/"><img src="/media/{{ productsList.Image }}" alt=""></a>
+                                           
+                                        </div>
+                                        <div class="product_content">
+                                            <div class="tag_cate">
+                                                <a href="/Products_details/{{productsList.id}}/"> {% if productsList.Stock == 'Yes' %} InStock {% else %} unAvailable {% endif %} </a>
+                                           
+                                            </div>
+                                            <h3><a href="product-details.html">{{productsList.Product_Name}}</a></h3>
+                                            <div class="price_box">
+                                                <span class="current_price">${{productsList.Price}}</span>
+                                            </div>
+                                            <div class="product_hover">
+                                                <div class="product_ratings">
+                                                    <ul>
+                                                        <li><a href="#"><i class="ion-ios-star-outline"></i></a></li>
+                                                        <li><a href="#"><i class="ion-ios-star-outline"></i></a></li>
+                                                        <li><a href="#"><i class="ion-ios-star-outline"></i></a></li>
+                                                        <li><a href="#"><i class="ion-ios-star-outline"></i></a></li>
+                                                        <li><a href="#"><i class="ion-ios-star-outline"></i></a></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="product_desc">
+                                                    <p>{{ productsList.Description }} </p>
+                                                </div>
+                                                <div class="action_links">
+                                                    <ul>
+                                                        <li class="add_to_cart"><a href="/Products_details/{{productsList.id}}/" title="add to cart">add to cart</a></li>
+                                                        
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {% endfor %}
+
+
+                           
+                      
+                          
+
+
+
+                        </div>
+
+                    </div>
+                   
+                </div>
+                </div>
+                <div class="col-lg-3 col-md-12">
+                    <!--sidebar widget start-->
+                     <div class="sidebar_widget">
+                         <div class="widget_list widget_categories">
+                             <h2>Categories</h2>
+                             <ul>
+                                <li><a href="/Shop">All</a> </li>
+                                {% for category in category %}
+                                 <li><a href="/SearchCategory/{{category.id}}/">{{category.name}}</a> </li>
+                                {% endfor %}
+                             </ul>
+                         </div>
+                         </div>
+                     </div>
+                     <!--sidebar widget end-->
+                    </div>
+        </div>
+    </div>
+    <!--shop  area end-->
+    {% endblock body_data %}

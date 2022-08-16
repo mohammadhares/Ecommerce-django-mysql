@@ -1,0 +1,90 @@
+{% extends 'Dashboard/public/header.html' %}
+{% load static %}
+{% block body_data %}
+{% load humanize %}
+<section class="content">
+    <div class="container-fluid">
+        <div class="block-header">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <ul class="breadcrumb breadcrumb-style ">
+                        <li class="breadcrumb-item">
+                        </li>
+                        <li class="breadcrumb-item bcrumb-1">
+                            <a href="/Dashboard">
+                                <i class="fas fa-home"></i> Home</a>
+                        </li>
+                        <li class="breadcrumb-item active">Customers</li>
+                    </ul>
+                    <div class="row clearfix">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="card">
+                                <div class="header">
+                                    <h2>
+                                        <strong>Customer</strong> Accounts
+                                    </h2>
+                                  
+                                </div>
+                                <div class="body table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Image</th>
+                                                <th>FullName</th>
+                                                <th>Email</th>
+                                                <th>Phone</th>
+                                                <th>Address</th>
+                                                <th>Payment Method</th>
+                                                <th>Datetime</th>
+                                                {% if request.session.Permission == 7 %}
+                                                <th>Action</th>
+                                                {% endif %}
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for Customer in Customer %}
+                                            <tr>
+                                                <td>{{ forloop.counter }}</td>
+                                                <td><img src="../media/{{ Customer.Image }}" alt="" width="100px" height="100px" style="border-radius: 100px;" ></td>
+                                                <td>{{ Customer.FirstName }} {{ Customer.LastName }}</td>
+                                                <td>{{ Customer.Email }}<br><b>Password:</b> {{ Customer.Password }}</td>
+                                                <td>{{ Customer.Phone }}</td>
+                                                <td>{{ Customer.Address }}</td>
+                                                <td>{{ Customer.Payment_Type }} 
+                                                    
+                                                    {% if Customer.Payment_Type == 'Credit Card' %}<br>
+                                                    <b>Account Number: </b> {{ Customer.Card_no }} <br>
+                                                    <b>CVC: </b> {{ Customer.Card_cvs }} <br>
+                                                    <b>Expire Date: </b> {{ Customer.Card_exp }} <br>
+                                                    ss
+                                                    {% endif %}
+
+                                                    {% if Customer.Payment_Type == 'Phone' %}<br>
+                                                    <b>Phone Number: </b> {{ Customer.PaymentPhone }} <br>
+                                                    {% endif %}
+
+                                                </td>
+                                                <td>{{ Customer.created|naturaltime }}</td>
+                                                {% if request.session.Permission == 7 %}
+                                                <td><a onclick="deleteMsg('Are You Sure?');" href="/DeleteFunction/CustomerAccount/{{ Customer.id }}/" class="fa fa-trash"></a> &nbsp;&nbsp;    
+                                                {% endif %}
+                                                </td>
+
+
+                                            </tr>
+                                            {% endfor %}
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock body_data %}

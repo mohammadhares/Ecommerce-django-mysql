@@ -1,0 +1,212 @@
+{% extends 'home/public/header.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block body_data %}
+<style>
+    
+    #accountNumber {
+        display: none;
+    }
+
+    #phonenumber {
+        display: none;
+    }
+
+</style>
+    <!--breadcrumbs area start-->
+    <div class="breadcrumbs_area">
+        <div class="container">   
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb_content">
+                        <h3>My account</h3>
+                        <ul>
+                            <li><a href="index.html">home</a></li>
+                            <li>></li>
+                            <li>My account</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>         
+    </div>
+    <!--breadcrumbs area end-->
+    
+    <!-- my account start  -->
+    <section class="main_content_area">
+        <div class="container">   
+            <div class="account_dashboard">
+                <div class="row">
+                    <div class="col-sm-12 col-md-3 col-lg-3">
+                        <!-- Nav tabs -->
+                        <div class="dashboard_tab_button">
+                            <ul role="tablist" class="nav flex-column dashboard-list">
+                                <li> <a href="#orders" data-bs-toggle="tab" class="nav-link active">Orders</a></li>
+                                <li><a href="#account-details" data-bs-toggle="tab" class="nav-link">Account details</a></li>
+                                <li><a href="/Customerlogout" class="nav-link">logout</a></li>
+                            </ul>
+                        </div>    
+                    </div>
+                    <div class="col-sm-12 col-md-9 col-lg-9">
+                        <!-- Tab panes -->
+                        <div class="tab-content dashboard_content">
+                           
+                            <div class="tab-pane fade show active" id="orders">
+                                <h3>Orders</h3>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Order</th>
+                                                <th>Product</th>
+                                                <th>Status</th>
+                                                <th>Shipment Type</th>
+                                                <th>Option</th>
+                                                	 	 	
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for OrderInfo in OrderInfo %}
+                                                {% for productsList in productsList %}
+                                                    
+                                                    {% if productsList.id == OrderInfo.Products_id_id  %}
+                                                        <tr>
+                                                            <td>{{ forloop.counter }}</td>
+                                                            <td> 
+                                                                <img src="/media/{{productsList.Image}}" alt="" style="width:100px; height: 100px;border-radius: 100px;"  > 
+                                                                <h4>{{ productsList.Product_Name }}</h4>
+                                                                <h4>${{ productsList.Price }}</h4>
+                                                            </td>
+                                                            <td>{{OrderInfo.Status}}<br>{{OrderInfo.Message}}<br>{{OrderInfo.created|naturaltime}}</td>
+                                                            {% for shipmentList in shipmentList %}
+                                                                {% if OrderInfo.Shipping_id_id ==  shipmentList.id %}
+                                                                    <td>{{shipmentList.Shipping_Type}} - {{shipmentList.Shipping_Zone}}: {{shipmentList.Price}}</td>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        <td>
+                                                            {% for RefundsInfo in RefundsInfo %}
+                                                            {% if RefundsInfo.Products_id_id  == OrderInfo.Products_id_id %}
+                                                                <p>{{RefundsInfo.Reason}}</p>
+                                                                <p><b>Refund Status:</b> {{RefundsInfo.Refund_Status}}</p>
+                                                                <p><b>Request On:</b> {{RefundsInfo.created|naturaltime}}</p>
+                                                          
+                                                                {% endif %}
+                                                        {% endfor %}
+
+                                                            {% if not OrderInfo.Status == 'Completed' %}
+                                                            <a href="/CancelOrder/{{productsList.id}}/" class="btn btn-danger" style="color: white;" >Cancel Order</a>
+                                                            {% endif %}
+                                                        </td>
+                                                            
+                                                        </tr>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% endfor %}
+                                         
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                          
+                        
+                            <div class="tab-pane fade" id="account-details">
+                                <h3>Account details </h3>
+                                <div class="login">
+                                    <div class="login_form_container">
+                                        <div class="account_login_form">
+                                            <form action="/UpdateCustomer" method="POST"enctype="Multipart/form-data" >
+                                                {% csrf_token %}
+                                                <div style="text-align: center;" >
+                                                    <img src="/media/{{customerInfo.0.Image}}" width="200px" height="200px" style="border-radius: 100px;" alt="">
+                                                </div>
+                                               
+                                                <br>
+                                                <hr><br>
+                                                <label>First Name</label>
+                                                <input type="text" value="{{customerInfo.0.FirstName}}" name="firstName" required >
+                                                <label>Last Name</label>
+                                                <input type="text"  value="{{customerInfo.0.LastName}}" name="lastName" required >
+                                                <label>Email</label>
+                                                <input type="email"  value="{{customerInfo.0.Email}}" name="Email" required >
+                                                <label>Phone</label>
+                                                <input type="number"  value="{{customerInfo.0.Phone}}" name="Phone" required >
+                                                <label>Password</label>  
+                                                <input type="password"  value="{{ customerInfo.0.Password }}" name="Password" required >
+                                                
+                                                <label>Address</label>  
+                                                <input type="text"  value="{{ customerInfo.0.Address }}" name="Address" required >
+                                                
+
+                                              
+                                                
+                                                <br>
+                                                <label>Payment Method <span>*</span></label>
+                                                <select name="PaymentMethod" id="paymentMethod" class="form-control"
+                                                    onchange="myFunction5()">
+                                                    <option value="No">Select and option</option>
+                                                    <option value="Credit Card">Credit Card</option>
+                                                    <option value="Phone">Phone</option>
+                                                    <option value="Cash on Delivery">Cash on Delivery</option>
+                                                </select>
+                                                <br>
+                                                <div id="accountNumber">
+                                                    <p>
+                                                        <label>Account Number <span>*</span></label>
+                                                        <input type="text" name="AccountNo">
+                                                    </p>
+                                                    <p>
+                                                        <label>CVC <span>*</span></label>
+                                                        <input type="number" name="CVC">
+                                                    </p>
+                                                    <p>
+                                                        <label>Expire Date <span>*</span></label>
+                                                        <input type="Date" name="ExpireDate">
+                                                    </p>
+                                                </div>
+                        
+                                                <div id="phonenumber">
+                                                    <p>
+                                                        <label>Phone Number <span>*</span></label>
+                                                        <input type="phone" name="PaymentPhone">
+                                                    </p>
+                        
+                                                </div>
+                                                
+                                             
+                                                <div class="save_button primary_btn default_button">
+                                                    <input type="submit" value="Save" class="btn btn-primary btn-lg" >
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>  
+        </div>        	
+    </section>			
+    <!-- my account end   -->
+    
+    <script>
+        function myFunction5() {
+            var x = document.getElementById("paymentMethod");
+            var i = x.selectedIndex;
+            if (i == 1) {
+                document.getElementById("phonenumber").style.display = "none";
+                document.getElementById("accountNumber").style.display = "inline";
+            }
+            if (i == 2) {
+                document.getElementById("phonenumber").style.display = "inline";
+                document.getElementById("accountNumber").style.display = "none";
+            }
+            if (i == 3) {
+                document.getElementById("phonenumber").style.display = "none";
+                document.getElementById("accountNumber").style.display = "none";
+            }
+        }
+    </script>
+
+    {% endblock body_data %}

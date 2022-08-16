@@ -1,0 +1,207 @@
+{% extends 'Dashboard/public/header.html' %}
+{% load static %}
+{% block body_data %}
+{% load humanize %}
+<section class="content">
+    <div class="container-fluid">
+        <div class="block-header">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <ul class="breadcrumb breadcrumb-style ">
+                        <li class="breadcrumb-item">
+                        </li>
+                        <li class="breadcrumb-item bcrumb-1">
+                            <a href="/Dashboard">
+                                <i class="fas fa-home"></i> Home</a>
+                        </li>
+                        <li class="breadcrumb-item active">Manage Accounts</li>
+                    </ul>
+                    <div class="row clearfix">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="card">
+                                <div class="header">
+                                    <h2>
+                                        <strong>Admin</strong> Users
+                                    </h2>
+                                    {% if request.session.Permission == 7 %}
+                                    <ul class="header-dropdown m-r--5">
+                                        <li class="dropdown">
+                                            <a href="#" onClick="return false;" class="dropdown-toggle"
+                                                data-toggle="dropdown" role="button" aria-haspopup="true"
+                                                aria-expanded="false">
+                                                <i class="material-icons">more_vert</i>
+                                            </a>
+                                            <ul class="dropdown-menu pull-right">
+                                                <li>
+                                                    <a href="#" data-toggle="modal" data-target="#NewAdminModal" onClick="return false;">New Account</a>
+                                                </li>
+                                               
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                    {% endif %}
+                                </div>
+                                <div class="body table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Username</th>
+                                                <th>Email</th>
+                                                <th>Role</th>
+                                                <th>Status</th>
+                                                <th>Datetime</th>
+                                                {% if request.session.Permission == 7 %}
+                                                <th>Action</th>
+                                                {% endif %}
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for AdminAccount in AdminAccount %}
+                                            <tr>
+                                                <td>{{ forloop.counter }}</td>
+                                                <td>{{ AdminAccount.Username }}</td>
+                                                <td>{{ AdminAccount.Email }}</td>
+                                                <td>{% if AdminAccount.Permission == 7 %} Admin {% else %} Manager {% endif %}</td>
+                                                <td>{{ AdminAccount.Status }}</td>
+                                                <td>{{ AdminAccount.created|naturaltime }}</td>
+                                                {% if request.session.Permission == 7 %}
+                                                <td>
+                                                    <a onclick="deleteMsg('Are You Sure?');" href="/DeleteFunction/adminAccount/{{ AdminAccount.id }}/" class="fa fa-trash"></a> &nbsp;&nbsp;    
+                                                    <a href="" data-toggle="modal" data-target="#NewAdminModal{{AdminAccount.id}}" class="fa fa-edit"></a></td>
+                                                {% endif %}
+                                            </tr>
+                                            {% endfor %}
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% for AdminAccount in AdminAccount %}
+
+<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+    <div class="modal fade" id="NewAdminModal{{AdminAccount.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalGrid"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalGrid">Create Account</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/EditAdminAccount/{{AdminAccount.id}}/" method="POST">{% csrf_token %}
+                    <div class="modal-body">
+                        <div class="container-fluid">
+
+                            <div class="row clearfix">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <input type="text" class="form-control" name="Username" value="{{AdminAccount.Username}}" required>
+                                            <label class="form-label">Username</label>
+                                        </div>
+<br>
+                                        <div class="form-line">
+                                            <input type="text" class="form-control" name="Email" value="{{AdminAccount.Email}}" required>
+                                            <label class="form-label">Email</label>
+                                        </div>
+                                        <br>
+
+                                        <div class="form-line">
+                                            <input type="Password" class="form-control" name="Password" value="{{AdminAccount.Password}}" required>
+                                            <label class="form-label">Password</label>
+                                        </div>
+                                        <br>
+                                       
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info waves-effect">Save</button>
+                        <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endfor %}
+
+
+<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+    <div class="modal fade" id="NewAdminModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalGrid"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalGrid">Create Account</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/AddAdminAccount" method="POST">{% csrf_token %}
+                    <div class="modal-body">
+                        <div class="container-fluid">
+
+                            <div class="row clearfix">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <input type="text" class="form-control" name="Username" required>
+                                            <label class="form-label">Username</label>
+                                        </div>
+<br>
+                                        <div class="form-line">
+                                            <input type="text" class="form-control" name="Email" required>
+                                            <label class="form-label">Email</label>
+                                        </div>
+                                        <br>
+                                        <div class="form-line">
+                                            <select name="role" id="" class="form-control" >
+                                                <option value="7">Admin</option>
+                                                <option value="6">Manager</option>
+                                            </select>
+                                            <label class="form-label">Role</label>
+                                        </div>
+                                        <br>
+
+                                        <div class="form-line">
+                                            <input type="Password" class="form-control" name="Password" required>
+                                            <label class="form-label">Password</label>
+                                        </div>
+                                        <br>
+                                       
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info waves-effect">Save</button>
+                        <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock body_data %}

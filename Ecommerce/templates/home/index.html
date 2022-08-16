@@ -1,0 +1,302 @@
+{% extends 'home/public/header.html' %}
+{% load static %}
+
+{% block body_data %}
+
+    <div class="slider_area owl-carousel">
+        <div class="single_slider" data-bgimg="{% static  '/assets/img/slider/slider1.jpg'%}">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-12">
+                        <div class="slider_content text-center">
+                            <h1>Gemstone Arrivals</h1>
+                            <a class="button btn-primary" href="/Shop">shopping now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="single_slider" data-bgimg="{% static  '/assets/img/slider/slider2.jpg'%}">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-12">
+                        <div class="slider_content text-center">
+                            <h1>Exclusive Offer  this week</h1>
+                            <a class="button" href="/Shop">shopping now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--product section area start-->
+    <section class="product_section p_bottom p_section1">
+        <div class="container">
+            <div class="row">
+               <div class="col-12">
+                    <div class="section_title">
+                        <h2>Best Selling Products</h2>
+                    </div> 
+                </div>  
+                <div class="col-12">
+                    <div class="product_area ">
+                         <div class="product_container bottom">
+                            <div class="custom-row product_row1">
+                             
+                                {% for productsList in productsList %}
+
+                                <div class="custom-col-5">
+                                    <div class="single_product">
+                                        <div class="product_thumb">
+                                            <a class="primary_img" href="/Products_details/{{productsList.id}}/"><img src="/media/{{ productsList.Image }}" alt=""></a>
+                                            <a class="secondary_img" href="/Products_details/{{productsList.id}}/"><img src="/media/{{ productsList.Image }}" alt=""></a>
+                                           
+                                        </div>
+                                        <div class="product_content">
+                                            <div class="tag_cate">
+                                                <a href="/Products_details/{{productsList.id}}/"> {% if productsList.Stock == 'Yes' %} InStock {% else %} unAvailable {% endif %} </a>
+                                           
+                                            </div>
+                                            <h3><a href="/Products_details/{{productsList.id}}/">{{ productsList.Product_Name }}</a></h3>
+                                            <span class="current_price">${{productsList.Price}}</span>
+                                            <div class="product_hover">
+                                                <div class="product_ratings">
+                                                    <ul>
+                                                        <li><a href="#"><i class="ion-ios-star-outline"></i></a></li>
+                                                        <li><a href="#"><i class="ion-ios-star-outline"></i></a></li>
+                                                        <li><a href="#"><i class="ion-ios-star-outline"></i></a></li>
+                                                        <li><a href="#"><i class="ion-ios-star-outline"></i></a></li>
+                                                        <li><a href="#"><i class="ion-ios-star-outline"></i></a></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="product_desc">
+                                                    <p>{{ productsList.Description }} </p>
+                                                </div>
+                                                <div class="action_links">
+                                                    <ul>
+                                                        <li class="add_to_cart"><a href="/Products_details/{{productsList.id}}/" title="add to cart">add to cart</a></li>
+                                                        
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                             
+                                {% endfor %}
+
+    
+
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>    
+        </div>
+    </section>
+
+    <!--banner fullwidth start-->
+    <section class="banner_fullwidth">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-12">
+                   <div class="banner_text">
+                        <p>Sale Off 20% All Gamestone</p>
+                        <h2>New Trending Collection</h2>
+                        <span>We Believe That Good Design is Always in Season</span>
+                        <a href="/Shop">shopping Now</a>
+                       
+                   </div>
+                    
+                </div>
+            </div>   
+        </div>
+    </section>
+    <!--banner area end-->
+
+
+    <section class="product_section p_bottom p_section1">
+        <div class="container">
+            <div class="row">
+               <div class="col-12">
+                    <div class="section_title">
+                        <h2>New Products</h2>
+                    </div> 
+                </div>  
+                <div class="col-12">
+                    <div class="product_area ">
+                         <div class="product_container bottom">
+                            <div class="custom-row product_row1">
+                             
+                                {% for NewProductsList in NewProductsList %}
+
+                                <div class="custom-col-5">
+                                    <div class="single_product">
+                                        <div class="product_thumb">
+                                            <a class="primary_img" href="/Products_details/{{NewProductsList.id}}/"><img src="/media/{{ NewProductsList.Image }}" alt=""></a>
+                                            <a class="secondary_img" href="/Products_details/{{NewProductsList.id}}/"><img src="/media/{{ NewProductsList.Image }}" alt=""></a>
+                                           
+                                        </div>
+                                        <div class="product_content">
+                                            <div class="tag_cate">
+                                                <a href="/Products_details/{{NewProductsList.id}}/"> {% if NewProductsList.Stock == 'Yes' %} InStock {% else %} unAvailable {% endif %} </a>
+                                           
+                                            </div>
+                                            <h3><a href="/Products_details/{{NewProductsList.id}}/">{{ NewProductsList.Product_Name }}</a></h3>
+                                            <span class="current_price">${{NewProductsList.Price}}</span>
+                                            <div class="product_hover">
+                                                <div class="product_ratings">
+                                                    <ul>
+                                                        <li><a href="#"><i class="ion-ios-star-outline"></i></a></li>
+                                                        <li><a href="#"><i class="ion-ios-star-outline"></i></a></li>
+                                                        <li><a href="#"><i class="ion-ios-star-outline"></i></a></li>
+                                                        <li><a href="#"><i class="ion-ios-star-outline"></i></a></li>
+                                                        <li><a href="#"><i class="ion-ios-star-outline"></i></a></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="product_desc">
+                                                    <p>{{ NewProductsList.Description }} </p>
+                                                </div>
+                                                <div class="action_links">
+                                                    <ul>
+                                                        <li class="add_to_cart"><a href="/Products_details/{{NewProductsList.id}}/" title="add to cart">add to cart</a></li>
+                                                        
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                             
+                                {% endfor %}
+
+    
+
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>    
+        </div>
+    </section>
+
+
+    <section class="product_section p_bottom p_section1">
+        <div class="container">
+            <div class="row">
+               <div class="col-12">
+                    <div class="section_title">
+                        <h2>Popular Products</h2>
+                    </div> 
+                </div>  
+                <div class="col-12">
+                    <div class="product_area ">
+                         <div class="product_container bottom">
+                            <div class="custom-row product_row1">
+                             
+                                {% for NewProductsList in populerProduct %}
+
+                                <div class="custom-col-5">
+                                    <div class="single_product">
+                                        <div class="product_thumb">
+                                            <a class="primary_img" href="/Products_details/{{NewProductsList.id}}/"><img src="/media/{{ NewProductsList.Image }}" alt=""></a>
+                                            <a class="secondary_img" href="/Products_details/{{NewProductsList.id}}/"><img src="/media/{{ NewProductsList.Image }}" alt=""></a>
+                                           
+                                        </div>
+                                        <div class="product_content">
+                                            <div class="tag_cate">
+                                                <a href="/Products_details/{{NewProductsList.id}}/"> {% if NewProductsList.Stock == 'Yes' %} InStock {% else %} unAvailable {% endif %} </a>
+                                           
+                                            </div>
+                                            <h3><a href="/Products_details/{{NewProductsList.id}}/">{{ NewProductsList.Product_Name }}</a></h3>
+                                            <span class="current_price">${{NewProductsList.Price}}</span>
+                                            <div class="product_hover">
+                                                <div class="product_ratings">
+                                                    <ul>
+                                                        <li><a href="#"><i class="ion-ios-star-outline"></i></a></li>
+                                                        <li><a href="#"><i class="ion-ios-star-outline"></i></a></li>
+                                                        <li><a href="#"><i class="ion-ios-star-outline"></i></a></li>
+                                                        <li><a href="#"><i class="ion-ios-star-outline"></i></a></li>
+                                                        <li><a href="#"><i class="ion-ios-star-outline"></i></a></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="product_desc">
+                                                    <p>{{ NewProductsList.Description }} </p>
+                                                </div>
+                                                <div class="action_links">
+                                                    <ul>
+                                                        <li class="add_to_cart"><a href="/Products_details/{{NewProductsList.id}}/" title="add to cart">add to cart</a></li>
+                                                        
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                             
+                                {% endfor %}
+
+    
+
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>    
+        </div>
+    </section>
+
+    
+
+    <!--blog section area start-->
+    <section class="blog_section">
+        <div class="container">
+           <div class="row">
+               <div class="col-12">
+                   <div class="section_title">
+                       <h2>Monsta News</h2>
+                   </div>
+               </div>
+           </div>
+            <div class="row">
+                <div class="blog_wrapper blog_column3 owl-carousel">
+                    {% for info in info %}
+                    <div class="col-lg-4">
+                        <div class="single_blog">
+                            <div class="blog_thumb">
+                                <a href="/ViewBlog"><img src="/media/{{info.Image}}" alt=""></a>
+                            </div>
+                            <div class="blog_content">
+                                <h3><a href="/ViewBlog">{{ info.Title }} a</a></h3>
+                                <div class="author_name">
+                                   <p> 
+                                        <span>by</span>
+                                        <span class="themes">Admin</span>
+                                        Posted {{ info.created }}
+                                   </p>
+                                    
+                                </div>
+                                
+                                <div class="post_desc">
+                                    <p>{{ info.Description }}</p>
+                                </div>
+                                <div class="read_more">
+                                    <a href="/ViewBlog">read more</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--blog section area end-->
+
+
+
+{% endblock body_data %}

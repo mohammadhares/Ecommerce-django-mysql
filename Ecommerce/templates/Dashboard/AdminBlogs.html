@@ -1,0 +1,199 @@
+{% extends 'Dashboard/public/header.html' %}
+{% load static %}
+{% block body_data %}
+{% load humanize %}
+<section class="content">
+    <div class="container-fluid">
+        <div class="block-header">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <ul class="breadcrumb breadcrumb-style ">
+                        <li class="breadcrumb-item">
+                        </li>
+                        <li class="breadcrumb-item bcrumb-1">
+                            <a href="/Dashboard">
+                                <i class="fas fa-home"></i> Home</a>
+                        </li>
+                        <li class="breadcrumb-item active">Manage Blogs</li>
+                    </ul>
+                    <div class="row clearfix">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="card">
+                                <div class="header">
+                                    <h2>
+                                        <strong>Dashboard</strong> -  Blogs
+                                    </h2>
+                                    {% if request.session.Permission == 7 %}
+                                    <ul class="header-dropdown m-r--2">
+                                        <li class="dropdown">
+                                            <a href="#" onClick="return false;" class="dropdown-toggle"
+                                                data-toggle="dropdown" role="button" aria-haspopup="true"
+                                                aria-expanded="false">
+                                                <i class="material-icons">more_vert</i>
+                                            </a>
+                                            <ul class="dropdown-menu pull-right">
+                                                <li>
+                                                    <button type="button" class="btn btn-primary btn-block"
+                                                        data-toggle="modal" data-target="#NewBlogModal">New Blog
+                                                    </button>
+                                                  
+
+                                                </li>
+
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                    {% endif %}
+                                  
+                                </div>
+                                <div class="body table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Image</th>
+                                                <th>Title</th>
+                                                <th>Description</th>
+                                                <th>Datetime</th>
+                                                {% if request.session.Permission == 7 %}
+                                                <th>Action</th>
+                                                {% endif %}
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for info in info %}
+                                            <tr>
+                                                <td>{{ forloop.counter }}</td>
+                                                <td><img src="../media/{{ info.Image }}" alt="" width="200px" height="100px"  ></td>
+                                                <td>{{ info.Title }} </td>
+                                                <td>{{ info.Description }}</td>
+                                                <td>{{ info.created|naturaltime }}</td>
+                                                {% if request.session.Permission == 7 %}
+                                               <td><a href="/DeleteFunction/Blogs/{{info.id}}/" class="fa fa-trash"></a> &nbsp;&nbsp;    
+                                                <a href="#" data-toggle="modal" data-target="#NewBlogModal{{info.id}}" class="fa fa-edit"></a></td>
+                                                {% endif %}
+                                            </tr>
+                                            {% endfor %}
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+    <div class="modal fade" id="NewBlogModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalGrid"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalGrid">New Blog</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/AddBlog" method="POST" enctype="Multipart/form-data">{% csrf_token %}
+                    <div class="modal-body">
+                        <div class="container-fluid">
+
+                            <div class="row clearfix">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-float">
+                                       <br>
+
+                                        <div class="form-line">
+                                            <input type="text" class="form-control" name="Title" required>
+                                            <label class="form-label">Title</label>
+                                        </div>
+                                        <br>
+                                        <div class="form-line">
+                                            <textarea name="description" id="" required class="form-control" cols="30" rows="10"></textarea>
+                                            <label class="form-label">Description</label>
+                                        </div>
+                                        <br>
+                                        <label class="form-label">Image</label>
+                                        <div class="form-line">
+                                           
+                                            <input type="file" class="form-control" name="Image" required>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info waves-effect">Save</button>
+                        <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% for info in info %}
+<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+    <div class="modal fade" id="NewBlogModal{{info.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalGrid"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalGrid">Update Blog</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/UpdateBlog/{{info.id}}/" method="POST" enctype="Multipart/form-data">{% csrf_token %}
+                    <div class="modal-body">
+                        <div class="container-fluid">
+
+                            <div class="row clearfix">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-float">
+                                        <img src="/media/{{info.Image}}" width="100%"   alt="">
+                                       <br>
+
+                                        <div class="form-line">
+                                            <input type="text" class="form-control" value="{{info.Title}}" name="Title" required>
+                                            <label class="form-label">Title</label>
+                                        </div>
+                                        <br>
+                                        <div class="form-line">
+                                            <textarea name="description" id=""  required class="form-control" cols="30" rows="10">{{info.Description}}</textarea>
+                                            <label class="form-label">Description</label>
+                                        </div>
+                                        <br>
+                                        <label class="form-label">Image</label>
+                                        <div class="form-line">
+                                           
+                                            <input type="file" class="form-control" name="Image" >
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info waves-effect">Save</button>
+                        <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endblock body_data %}

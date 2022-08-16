@@ -1,0 +1,201 @@
+{% extends 'Dashboard/public/header.html' %}
+{% load static %}
+{% block body_data %}
+{% load humanize %}
+<section class="content">
+    <div class="container-fluid">
+        <div class="block-header">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <ul class="breadcrumb breadcrumb-style ">
+                        <li class="breadcrumb-item">
+                        </li>
+                        <li class="breadcrumb-item bcrumb-1">
+                            <a href="/Dashboard">
+                                <i class="fas fa-home"></i> Home</a>
+                        </li>
+                        <li class="breadcrumb-item active">Manage Shipping</li>
+                    </ul>
+                    <div class="row clearfix">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="card">
+                                <div class="header">
+                                    <h2>
+                                        <strong>Dashboard</strong> -  Shipping
+                                    </h2>
+                                    {% if request.session.Permission == 7 %}
+                                    <ul class="header-dropdown m-r--5">
+                                        <li class="dropdown">
+                                            <a href="#" onClick="return false;" class="dropdown-toggle"
+                                                data-toggle="dropdown" role="button" aria-haspopup="true"
+                                                aria-expanded="false">
+                                                <i class="material-icons">more_vert</i>
+                                            </a>
+                                            <ul class="dropdown-menu pull-right">
+                                                <li>
+                                                    <a href="#" data-toggle="modal" data-target="#NewShippingModal" onClick="return false;">New Ship</a>
+                                                </li>
+                                               
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                    {% endif %}
+                                  
+                                </div>
+                                <div class="body table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Shipping Type</th>
+                                                <th>Shipping Zone</th>
+                                                <th>Price</th>
+                                                <th>Datetime</th>
+                                                {% if request.session.Permission == 7 %}
+                                                <th>Action</th>
+                                                {% endif %}
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for info in info %}
+                                            <tr>
+                                                <td>{{ forloop.counter }}</td>
+                                                <td>{{ info.Shipping_Type }} </td>
+                                                <td>{{ info.Shipping_Zone }}</td>
+                                                <td>{{ info.Price }}</td>
+                                                <td>{{ info.created|naturaltime }}</td>
+                                                {% if request.session.Permission == 7 %}
+                                               <td><a onclick="deleteMsg('Are You Sure?')" href="/DeleteFunction/shipping/{{ info.id }}/" class="fa fa-trash"></a> &nbsp;&nbsp;
+                                                    <a href="#" data-toggle="modal" data-target="#UpdateShippingModal{{info.id}}" class="fa fa-edit"></a> </td>
+                                                {% endif %}
+
+                                            </tr>
+                                            {% endfor %}
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% for info in info %}
+<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+    <div class="modal fade" id="UpdateShippingModal{{info.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalGrid"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalGrid">Edit Shipping</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/EditShipping/{{info.id}}/" method="POST">{% csrf_token %}
+                    <div class="modal-body">
+                        <div class="container-fluid">
+
+                            <div class="row clearfix">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <input type="text" class="form-control" name="Shipping_Type" value="{{info.Shipping_Type}}" required>
+                                            <label class="form-label">Shipping Type</label>
+                                        </div>
+<br>
+                                        <div class="form-line">
+                                            <input type="text" class="form-control" name="Shipping_Zone" value="{{info.Shipping_Zone}}" required>
+                                            <label class="form-label">Shipping Zone</label>
+                                        </div>
+                                        <br>
+
+                                        <div class="form-line">
+                                            <input type="Price" class="form-control" name="Price" value="{{info.Price}}"  required>
+                                            <label class="form-label">Price</label>
+                                        </div>
+                                        <br>
+                                       
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info waves-effect">Save</button>
+                        <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endfor %}
+
+
+
+<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+    <div class="modal fade" id="NewShippingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalGrid"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalGrid">New Shipping</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/AddNewShipping" method="POST">{% csrf_token %}
+                    <div class="modal-body">
+                        <div class="container-fluid">
+
+                            <div class="row clearfix">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <input type="text" class="form-control" name="Shipping_Type" required>
+                                            <label class="form-label">Shipping Type</label>
+                                        </div>
+<br>
+                                        <div class="form-line">
+                                            <input type="text" class="form-control" name="Shipping_Zone" required>
+                                            <label class="form-label">Shipping Zone</label>
+                                        </div>
+                                        <br>
+
+                                        <div class="form-line">
+                                            <input type="Price" class="form-control" name="Price" required>
+                                            <label class="form-label">Price</label>
+                                        </div>
+                                        <br>
+                                       
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info waves-effect">Save</button>
+                        <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock body_data %}
