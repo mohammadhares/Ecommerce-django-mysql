@@ -11,6 +11,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="{% static  '/assets/img/favicon.ico' %}">
     <link rel="stylesheet" href="{% static  '/assets/css/plugins.css' %}">
     <link rel="stylesheet" href="{% static  '/assets/css/style.css' %}">
+    <link rel="stylesheet" href="{% static  '/localization/direction.css' %}">
     <script src="{% static  '/assets/js/vendor/modernizr-3.7.1.min.js' %}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <style>
@@ -179,13 +180,13 @@
                                 <a href="index.html"><img src="{% static  '/assets/img/logo/logo-3.png'%}" alt=""></a>
                             </div>
                             <div class="main_menu">
-                                <nav>
+                                <nav class="direct">
                                     <ul id="greetings-list"  >
-                                        <li class="greet" key="Home"><a style="color:white" href="/">Home</a></li>
-                                        <li><a style="color:white" href="/Shop">Shop</a></li>
-                                        <li><a style="color:white" href="/ViewBlog">Blog</a></li>
-                                        <li><a style="color:white" href="/Customer_Contact">Contact</a></li> 
-                                        <li><a style="color:white" href="/about">About Us</a></li> 
+                                        <li ><a class="greet" key="Home" style="color:white" href="/">Home</a></li>
+                                        <li ><a class="greet" key="Shop" style="color:white" href="/Shop">Shop</a></li>
+                                        <li ><a class="greet" key="Blog" style="color:white" href="/ViewBlog">Blog</a></li>
+                                        <li ><a class="greet" key="Contact" style="color:white" href="/Customer_Contact">Contact</a></li> 
+                                        <li ><a class="greet" key="About" style="color:white" href="/about">About Us</a></li> 
                                        
                                     </ul>
                                 </nav>
@@ -447,35 +448,6 @@
     <script src="{% static  '/assets/js/jquery.cookie.js' %}"></script>
     <script src="{% static  '/assets/js/bpopup.js' %}"></script>
     <script src="{% static  '/assets/js/main.js' %}"></script>
+    <script src="{% static  '/localization/localization.js'%}"></script>
 </body>
-
 </html>
-
-
-
-<script>
-    let langResourcesArr = {
-        "en": {
-            "Home" : "HOME",
-        },
-        "fr": {
-            "Home" : "خانه",
-          
-        },
-        "pa": {
-            "Home" : "خانه پشتو",
-        }
-    };
-</script>
-<script>
-
-    function changeLanguage(clickedLangChoiceId) {  // 1
-            $(function() {  // 2
-                $("#greetings-list").children(".greet").each(function() {  // 3
-                    let currentlyIteratedGreetKey = $(this).attr("key");  // 4
-                    let localizedValForGreetKey = langResourcesArr[clickedLangChoiceId][currentlyIteratedGreetKey];  // 5
-                    $(this).text(localizedValForGreetKey);  // 6
-                });
-            });
-    }
-</script>

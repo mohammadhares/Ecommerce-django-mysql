@@ -362,7 +362,8 @@ def AdminBlogs(request):
 @Admin_login_required
 def AddBlog(request):
     if request.method=="POST":
-        result = Blog(Title=request.POST['Title'],Description=request.POST['description'],Image=request.FILES['Image'])
+        result = Blog(Title=request.POST['Title'],Description=request.POST['description'],
+            Image=request.FILES['Image'])
         result.save()
         messages.success(request,"Inserted")
         return redirect('AdminBlogs')
@@ -487,7 +488,8 @@ def AdminShipping(request):
 @Admin_login_required
 def AddNewShipping(request):
     if request.method == "POST":
-        result = Shipping(Shipping_Type=request.POST['Shipping_Type'],Shipping_Zone=request.POST['Shipping_Zone'],Price=request.POST['Price'])
+        result = Shipping(Shipping_Type=request.POST['Shipping_Type'],
+            Shipping_Zone=request.POST['Shipping_Zone'],Price=request.POST['Price'])
         result.save()
         messages.success(request,"Added")
         return redirect('AdminShipping')
