@@ -43,20 +43,23 @@
                     <div class="col-lg-5 col-md-12">
                         <div class="top_right text-right">
                             <ul  >
-                                <li class="language"><a href="#"> Engish <i class="ion-chevron-down"></i></a>
+                                <li class="language"><a href="#" class="greet" key="Lang"> Engish <i class="ion-chevron-down"></i></a>
                                     <ul class="dropdown_language">
-                                    <li><button id="en" style="background-color:white;border:none;" class="lang-choice" onclick="changeLanguage(this.id)">English</button> </li> <!-- 1 -->
-                                    <li><button id="fr" style="background-color:white;border:none;" class="lang-choice" onclick="changeLanguage(this.id)">Farsi</button> </li> <!-- 2 -->
-                                    <li><button id="pa" style="background-color:white;border:none;" class="lang-choice" onclick="changeLanguage(this.id)">Pashto</button> </li> <!-- 2 -->
-                                    </ul>
+                                    <span id="lang-list">
+                                        <li><button id="en" style="background-color:white;border:none;" class="lang-choice greet" key="English" onclick="changeLanguage(this.id)">English</button> </li> <!-- 1 -->
+                                        <li><button id="fr" style="background-color:white;border:none;" class="lang-choice greet" key="Persion" onclick="changeLanguage(this.id)">Farsi</button> </li> <!-- 2 -->
+                                        <li><button id="pa" style="background-color:white;border:none;" class="lang-choice greet" key="Pashto" onclick="changeLanguage(this.id)">Pashto</button> </li> <!-- 2 -->
+                                    </span>
+                                </ul>
                                   
                                 </li>
 
-                                <li class="top_links"><a href="#">{% if request.session.CustomerName %}  {{ request.session.CustomerName }} {% else %} My Account {% endif %} <i class="ion-chevron-down"></i></a>
+                                <li class="top_links"><a href="#" class="greet" key="myaccount">{% if request.session.CustomerName %}  
+                                    {{ request.session.CustomerName }} {% else %} My Account {% endif %}
+                                 <i class="ion-chevron-down"></i></a>
                                     <ul class="dropdown_links">
-                                        <li><a href="/Account">Login </a></li>
-                                        <li><a href="/CustomerAccount">My Account </a></li>
-                                        
+                                        <li><a href="/Account" class="greet" key="login">Login </a></li>
+                                        <li><a href="/CustomerAccount" class="greet" key="myaccount">My Account </a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -75,12 +78,12 @@
                     <div class="col-lg-5">
                         <div class="home_contact">
                             <div class="contact_box">
-                                <label>Location</label>
+                                <label class="greet" key="location">Location</label>
                                 <p>{% if request.session.CustomerAddress %} {{ request.session.CustomerAddress }} 
                                 {% else  %} Kabul Afghanistan {% endif %}</p>
                             </div>
                             <div class="contact_box">
-                                <label>Call free</label>
+                                <label class="greet" key="call">Call free</label>
                                 <p><a href="tel:0123456789">+93 070 827 5116</a></p>
 
                             </div>
@@ -99,10 +102,10 @@
                                 <span class="cart_quantity">{{basketCount}}</span>
                                 <!--mini cart-->
                                 
-                                <div class="mini_cart">
+                                <div class="mini_cart direct">
                                     <div class="cart_close">
                                         <div class="cart_text">
-                                            <h3>cart</h3>
+                                            <h3 class="greet" key="cart">cart</h3>
                                         </div>
                                         <div class="mini_cart_close">
                                             <a href="javascript:void(0)"><i class="ion-android-close"></i></a>
@@ -132,18 +135,18 @@
                                     {% endfor %}
                                    
                                     <div class="cart_total">
-                                        <span>Subtotal:</span>
+                                        <span class="greet" key="subtotal">Subtotal:</span>
                                         <span>${{OrderHistory.0.price|floatformat:0 }}</span>
                                     </div>
            
 
                                     <div class="cart_total">
-                                        <span>Payment Method:</span>
+                                        <span class="greet" key="paymethod">Payment Method:</span>
                                         <span>{{customerInfo.0.Payment_Type}}</span>
                                     </div>
                                 <form action="/AddOrder" method="POST" >{% csrf_token %}
 
-                                    <label for="">Shipment Details</label>
+                                    <label for="" class="greet" key="shipdetail">Shipment Details</label>
                                     <select name="ShippmentID" id="" class="form-control" >
                                         
                                         {% for ShippingInfo in ShippingInfo %}
@@ -153,7 +156,10 @@
                                     <hr>
                                   
                                     <div class="cart_button checkout">
-                                        <input type="submit" class="btn btn-primary btn-block" style="width: 100%;background-color: #c09578;border: none;" value="Pay" >
+                                        <button type="submit" class="btn btn-primary btn-block greet" 
+                                        key="pay" style="width: 100%;background-color: #c09578;border: none;" >
+                                        Pay
+                                        </button>
                                     </div>
                                     
 
@@ -214,18 +220,17 @@
                 <div class="row">
                     <div class="col-lg-4 col-md-6 col-sm-8">
                         <div class="widgets_container contact_us">
-                            <h3>About Monsta</h3>
-                            <div class="footer_contact">
-                                <p>Address: Kabul Afghanistan.</p>
-                                <p>Phone: <a href="tel:0708275116">0708275116</a></p>
-                                <p>Email: info@monsta.com</p>
+                            <h3 class="greet" key="About">About Monsta</h3>
+                            <div class="footer_contact ">
+                                <p> <span class="greet" key="address">Address</span>: Kabul Afghanistan.</p>
+                                <p> <span class="greet" key="phone">Phone</span>: 0708275116 </p>
+                                <p> <span class="greet" key="email">Email</span>: Info@monsta.com </p>
                                 <ul>
-                                    <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                                    <li><a href="#"><i class="ion-social-rss"></i></a></li>
-                                    <li><a href="#"><i class="ion-social-googleplus"></i></a></li>
-
-                                    <li><a href="#"><i class="ion-social-youtube"></i></a></li>
+                                    <li><a href=""><i class="fa fa-facebook"></i></a></li>
+                                    <li><a href=""><i class="fa fa-twitter"></i></a></li>
+                                    <li><a href=""><i class="ion-social-rss"></i></a></li>
+                                    <li><a href=""><i class="ion-social-googleplus"></i></a></li>
+                                    <li><a href=""><i class="ion-social-youtube"></i></a></li>
                                 </ul>
 
                             </div>
@@ -233,26 +238,26 @@
                     </div>
                     <div class="col-lg-4 col-md-6 col-sm-4 col-6">
                         <div class="widgets_container widget_menu">
-                            <h3>Information</h3>
+                            <h3 class="greet" key="info">Information</h3>
                             <div class="footer_menu">
                                 <ul>
-                                    <li><a href="/About">About Us</a></li>
-                                    <li><a href="/ViewBlog">blog</a></li>
-                                    <li><a href="/Customer_Contact">Contact</a></li>
-                                    <li><a href="/Shop">Shop</a></li>
+                                    <li><a class="greet" key="About" href="/About">About Us</a></li>
+                                    <li><a class="greet" key="Blog" href="/ViewBlog">blog</a></li>
+                                    <li><a class="greet" key="Contact" href="/Customer_Contact">Contact</a></li>
+                                    <li><a class="greet" key="Shop" href="/Shop">Shop</a></li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6 col-sm-5 col-6">
                         <div class="widgets_container widget_menu">
-                            <h3>My Account</h3>
+                            <h3 class="greet" key="myaccount">My Account</h3>
                             <div class="footer_menu">
                                 <ul>
-                                    <li><a href="/Account">Login</a></li>
-                                    <li><a href="/CustomerAccount">My Account</a></li>
-                                    <li><a href="/">Home</a></li>
-                                    <li><a href="/About">About Us</a></li>
+                                    <li><a class="greet" key="login" href="/Account">Login</a></li>
+                                    <li><a class="greet" key="myaccount" href="/CustomerAccount">My Account</a></li>
+                                    <li><a class="greet" key="Home" href="/">Home</a></li>
+                                    <li><a class="greet" key="About" href="/About">About Us</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -264,12 +269,12 @@
                     <div class="col-12">
                         <div class="footer_middel_menu">
                             <ul>
-                                <li><a href="/">Home</a></li>
-                                <li><a href="/Shop">Shop</a></li>
-                                <li><a href="/ViewBlog">Blogs</a></li>
-                                <li><a href="/Customer_Contact">Contact Us</a></li>
-                                <li><a href="/About">About US</a></li>
-                                <li><a href="/Account">My Account</a></li>
+                                <li><a class="greet" key="Home" href="/">Home</a></li>
+                                <li><a class="greet" key="Shop" href="/Shop">Shop</a></li>
+                                <li><a class="greet" key="Blog" href="/ViewBlog">Blogs</a></li>
+                                <li><a class="greet" key="Contact" href="/Customer_Contact">Contact Us</a></li>
+                                <li><a class="greet" key="About" href="/About">About US</a></li>
+                                <li><a class="greet" key="myaccount" href="/Account">My Account</a></li>
                             </ul>
                         </div>
                     </div>
@@ -290,148 +295,6 @@
         </div>
     </footer>
     <!--footer area end-->
-
-    <!-- modal area start-->
-    <div class="modal fade" id="modal_box" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <div class="modal_body">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-5 col-md-5 col-sm-12">
-                                <div class="modal_tab">
-                                    <div class="tab-content product-details-large">
-                                        <div class="tab-pane fade show active" id="tab1" role="tabpanel">
-                                            <div class="modal_tab_img">
-                                                <a href="#"><img src="assets/img/product/product1.jpg" alt=""></a>
-                                            </div>
-                                        </div>
-                                        <div class="tab-pane fade" id="tab2" role="tabpanel">
-                                            <div class="modal_tab_img">
-                                                <a href="#"><img src="assets/img/product/product2.jpg" alt=""></a>
-                                            </div>
-                                        </div>
-                                        <div class="tab-pane fade" id="tab3" role="tabpanel">
-                                            <div class="modal_tab_img">
-                                                <a href="#"><img src="assets/img/product/product3.jpg" alt=""></a>
-                                            </div>
-                                        </div>
-                                        <div class="tab-pane fade" id="tab4" role="tabpanel">
-                                            <div class="modal_tab_img">
-                                                <a href="#"><img src="assets/img/product/product5.jpg" alt=""></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="modal_tab_button">
-                                        <ul class="nav product_navactive owl-carousel" role="tablist">
-                                            <li>
-                                                <a class="nav-link active" data-bs-toggle="tab" href="#tab1" role="tab"
-                                                    aria-controls="tab1" aria-selected="false"><img
-                                                        src="assets/img/product/product1.jpg" alt=""></a>
-                                            </li>
-                                            <li>
-                                                <a class="nav-link" data-bs-toggle="tab" href="#tab2" role="tab"
-                                                    aria-controls="tab2" aria-selected="false"><img
-                                                        src="assets/img/product/product2.jpg" alt=""></a>
-                                            </li>
-                                            <li>
-                                                <a class="nav-link button_three" data-bs-toggle="tab" href="#tab3"
-                                                    role="tab" aria-controls="tab3" aria-selected="false"><img
-                                                        src="assets/img/product/product3.jpg" alt=""></a>
-                                            </li>
-                                            <li>
-                                                <a class="nav-link" data-bs-toggle="tab" href="#tab4" role="tab"
-                                                    aria-controls="tab4" aria-selected="false"><img
-                                                        src="assets/img/product/product5.jpg" alt=""></a>
-                                            </li>
-
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-7 col-md-7 col-sm-12">
-                                <div class="modal_right">
-                                    <div class="modal_title mb-10">
-                                        <h2>Donec eu furniture</h2>
-                                    </div>
-                                    <div class="modal_price mb-10">
-                                        <span class="new_price">$64.99</span>
-                                        <span class="old_price">$78.99</span>
-                                    </div>
-                                    <div class="see_all">
-                                        <a href="product-details.html">See all features</a>
-                                    </div>
-                                    <div class="modal_add_to_cart mb-15">
-                                        <form action="#">
-                                            <input min="0" max="100" step="2" value="1" type="number">
-                                            <button type="submit">add to cart</button>
-                                        </form>
-                                    </div>
-                                    <div class="modal_description mb-15">
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                        </p>
-                                    </div>
-                                    <div class="modal_social">
-                                        <h2>Share this product</h2>
-                                        <ul>
-                                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                                            <li><a href="#"><i class="fa fa-pinterest"></i></a></li>
-                                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                                            <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- modal area start-->
-
-
-
-    <!--news letter popup start-->
-    <div class="newletter-popup">
-        <div id="boxes" class="newletter-container">
-            <div id="dialog" class="window">
-                <div id="popup2">
-                    <span class="b-close"><span>close</span></span>
-                </div>
-                <div class="box">
-                    <div class="newletter-title">
-                        <h2>Newsletter</h2>
-                    </div>
-                    <div class="box-content newleter-content">
-                        <label class="newletter-label">Enter your email address to subscribe our notification of our new
-                            post &amp; features by email.</label>
-                        <div id="frm_subscribe">
-                            <form name="subscribe" id="subscribe_popup">
-                                <!-- <span class="required">*</span><span>Enter you email address here...</span>-->
-                                <input type="text" value="" name="subscribe_pemail" id="subscribe_pemail"
-                                    placeholder="Enter you email address here...">
-                                <input type="hidden" value="" name="subscribe_pname" id="subscribe_pname">
-                                <div id="notification"></div>
-                                <a class="theme-btn-outlined"
-                                    onclick="email_subscribepopup()"><span>Subscribe</span></a>
-                            </form>
-                            <div class="subscribe-bottom">
-                                <input type="checkbox" id="newsletter_popup_dont_show_again">
-                                <label for="newsletter_popup_dont_show_again">Don't show this popup again</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <script src="{% static  '/assets/js/vendor/jquery-3.4.1.min.js' %}"></script>
     <script src="{% static  '/assets/js/popper.js' %}"></script>
     <script src="{% static  '/assets/js/bootstrap.min.js' %}"></script>
