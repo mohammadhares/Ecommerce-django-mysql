@@ -9,11 +9,11 @@
             <div class="row">
                 <div class="col-12">
                     <div class="breadcrumb_content">
-                        <h3>contact</h3>
+                        <h3 class="greet" key="Contact">contact</h3>
                         <ul>
-                            <li><a href="index.html">home</a></li>
+                            <li><a class="greet" key="Home" href="index.html">home</a></li>
                             <li>></li>
-                            <li>about us</li>
+                            <li class="greet" key="About">about us</li>
                         </ul>
                     </div>
                 </div>
@@ -38,14 +38,12 @@
     
     <!--contact area start-->
     <div class="contact_area">
-        <div class="container">   
+        <div class="container direct">   
             <div class="row">
                 <div class="col-lg-6 col-md-12">
                    <div class="contact_message content">
-                        <h3>contact us</h3>    
-                         <p>Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum claram anteposuerit litterarum formas human. qui sequitur mutationem consuetudium lectorum. Mirum est notare quam</p>
+                        <h3 class="greet" key="Contact">contact us</h3>    
                         <ul>
-                            <li><i class="fa fa-fax"></i>  Address : Your address goes here.</li>
                             <li><i class="fa fa-phone"></i> <a href="#">demo@example.com</a></li>
                             <li><i class="fa fa-envelope-o"></i> 0123456789</li>
                         </ul>             
@@ -53,26 +51,27 @@
                 </div>
                 <div class="col-lg-6 col-md-12">
                    <div class="contact_message form">
-                        <h3>Tell us your project</h3>   
+                        <h3 class="greet" key="request">Your Request</h3>   
                         <form id="contact-form" method="POST"  action="SaveContact">{% csrf_token %}
                             <p>  
-                               <label> Your Name (required)</label>
-                                <input name="name" placeholder="Name *" type="text" required > 
+                               <label class="greet" key="firstname"> Your Name </label>(*)
+                                <input name="name" placeholder=" *" type="text" required > 
                             </p>
                             <p>       
-                               <label>  Your Email (required)</label>
-                                <input name="email" placeholder="Email *" type="email" required >
+                               <label class="greet" key="email">Your Email</label> (*)
+                                <input name="email" placeholder=" *" type="email" required >
                             </p>
                             <p>          
-                               <label>  Subject</label>
-                                <input name="subject" placeholder="Subject *" type="text"  required>
+                               <label class="greet" key="subject">  Subject</label>
+                                <input name="subject" placeholder=" *" type="text"  required>
                             </p>    
                             <div class="contact_textarea">
-                                <label>  Your Message</label>
-                                <textarea placeholder="Message *" name="message"  class="form-control2" required ></textarea>     
+                                <label class="greet" key="message">  Your Message</label>
+                                <textarea placeholder="" name="message"  class="form-control2" required ></textarea>     
                             </div>   
-                            <input type="submit" class="btn btn-default btn-lg" value="Send"  >  
-                          
+                            <button type="submit" class="btn btn-default btn-lg greet" key="send" > 
+                                Send 
+                            </button>
                         </form> 
 
                     </div> 

@@ -64,74 +64,74 @@
             <!--register area start-->
             <div class="col-lg-6 col-md-6">
                 <div class="account_form register">
-                    <h2>Register</h2>
+                    <h2 class="greet" key="register">Register</h2>
                     <form action="/RegisterAccount" method="POST" enctype="Multipart/form-data">
                         {% csrf_token %}
                         <p>
-                            <label>FirstName <span>*</span></label>
+                            <label class="greet" key="firstname">FirstName </label><span>*</span>
                             <input type="text" name="firstName" required>
                         </p>
 
 
                         <p>
-                            <label>LastName <span>*</span></label>
+                            <label class="greet" key="lastname">LastName</label> <span>*</span>
                             <input type="text" name="lastName" required>
                         </p>
                         <p>
-                            <label>Email address <span>*</span></label>
+                            <label class="greet" key="email">Email address </label><span>*</span>
                             <input type="Email" name="Email" required>
                         </p>
                         <p>
-                            <label>Phone <span>*</span></label>
+                            <label class="greet" key="phone">Phone </label><span>*</span>
                             <input type="phone" name="Phone" required>
                         </p>
                         <p>
-                            <label>Passwords <span>*</span></label>
+                            <label class="greet" key="password">Passwords </label><span>*</span>
                             <input type="password" name="Password" required>
                         </p>
                         <p>
-                            <label>Address <span>*</span></label>
+                            <label class="greet" key="address">Address </label><span>*</span>
                             <input type="text" name="Address" required>
                         </p>
                         <p>
-                            <label>Profile Photo <span>*</span></label>
+                            <label class="greet" key="photo">Profile Photo </label><span>*</span>
                             <input type="file" name="image" required>
                         </p>
                         <p>
-                            <label>Payment Method <span>*</span></label>
+                            <label class="greet" key="paymethod">Payment Method </label><span>*</span>
                             <select name="PaymentMethod" id="paymentMethod" class="form-control"
                                 onchange="myFunction5()">
-                                <option value="No">Select and option</option>
-                                <option value="Credit Card">Credit Card</option>
-                                <option value="Phone">Phone</option>
-                                <option value="Cash on Delivery">Cash on Delivery</option>
+                                <option class="greet" key="option" value="No">Select an option</option>
+                                <option class="greet" key="credit" value="Credit Card">Credit Card</option>
+                                <option class="greet" key="phone" value="Phone">Phone</option>
+                                <option class="greet" key="cash" value="Cash on Delivery">Cash on Delivery</option>
                             </select>
                         </p>
                         <div id="accountNumber">
                             <p>
-                                <label>Account Number <span>*</span></label>
+                                <label class="greet" key="account_no">Account Number </label><span>*</span>
                                 <input type="text" name="AccountNo">
                             </p>
                             <p>
-                                <label>CVC <span>*</span></label>
+                                <label class="greet" key="cvc">CVC </label><span>*</span>
                                 <input type="number" name="CVC">
                             </p>
                             <p>
-                                <label>Expire Date <span>*</span></label>
+                                <label class="greet" key="expire_date">Expire Date </label><span>*</span>
                                 <input type="Date" name="ExpireDate">
                             </p>
                         </div>
 
                         <div id="phonenumber">
                             <p>
-                                <label>Phone Number <span>*</span></label>
+                                <label class="greet" key="phone">Phone Number </label><span>*</span>
                                 <input type="phone" name="PaymentPhone">
                             </p>
 
                         </div>
 
 
-                        <button type="submit">Register</button>
+                        <button  class="greet" key="register" type="submit">Register</button>
 
                     </form>
                 </div>

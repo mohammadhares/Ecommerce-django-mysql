@@ -11,9 +11,9 @@
                 <div class="col-12">
                     <div class="breadcrumb_content">
                         <ul>
-                            <li><a href="index.html">home</a></li>
+                            <li class="greet" key="Home"><a href="index.html">home</a></li>
                             <li>></li>
-                            <li>shop</li>
+                            <li class="greet" key="Shop">shop</li>
                         </ul>
                     </div>
                 </div>
@@ -64,7 +64,7 @@
                                                 </div>
                                                 <div class="action_links">
                                                     <ul>
-                                                        <li class="add_to_cart"><a href="/Products_details/{{productsList.id}}/" title="add to cart">add to cart</a></li>
+                                                        <li class="add_to_cart"><a href="/Products_details/{{productsList.id}}/" title="" class="greet" key="addCart" >add to cart</a></li>
                                                         
                                                     </ul>
                                                 </div>
@@ -72,29 +72,18 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 {% endfor %}
-
-
-                           
-                      
-                          
-
-
-
                         </div>
-
                     </div>
-                   
                 </div>
                 </div>
                 <div class="col-lg-3 col-md-12">
                     <!--sidebar widget start-->
                      <div class="sidebar_widget">
                          <div class="widget_list widget_categories">
-                             <h2>Categories</h2>
+                             <h2 class="greet" key="category">Categories</h2>
                              <ul>
-                                <li><a href="/Shop">All</a> </li>
+                                <li><a class="greet" key="all" href="/Shop">All</a> </li>
                                 {% for category in category %}
                                  <li><a href="/SearchCategory/{{category.id}}/">{{category.name}}</a> </li>
                                 {% endfor %}
@@ -102,7 +91,6 @@
                          </div>
                          </div>
                      </div>
-                     <!--sidebar widget end-->
                     </div>
         </div>
     </div>

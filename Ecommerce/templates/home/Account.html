@@ -20,7 +20,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="breadcrumb_content">
-                        <h3 class="greet" key="test">My accounts</h3>
+                        <h3 class="greet" key="myaccount">My accounts</h3>
                         <ul>
                             <li><a href="/" class="greet" key="Home">home</a></li>
                             <li>></li>
@@ -34,7 +34,7 @@
     <!--breadcrumbs area end-->
     
     <!-- my account start  -->
-    <section class="main_content_area">
+    <section class="main_content_area direct">
         <div class="container">   
             <div class="account_dashboard">
                 <div class="row">
@@ -42,9 +42,9 @@
                         <!-- Nav tabs -->
                         <div class="dashboard_tab_button">
                             <ul role="tablist" class="nav flex-column dashboard-list">
-                                <li> <a href="#orders" data-bs-toggle="tab" class="nav-link active">Orders</a></li>
-                                <li><a href="#account-details" data-bs-toggle="tab" class="nav-link">Account details</a></li>
-                                <li><a href="/Customerlogout" class="nav-link">logout</a></li>
+                                <li> <a href="#orders" data-bs-toggle="tab" class="nav-link active greet" key="order">Orders</a></li>
+                                <li><a href="#account-details" data-bs-toggle="tab" class="nav-link greet" key="account_detail">Account details</a></li>
+                                <li><a href="/Customerlogout" class="nav-link greet" key="logout">logout</a></li>
                             </ul>
                         </div>    
                     </div>
@@ -53,16 +53,16 @@
                         <div class="tab-content dashboard_content">
                            
                             <div class="tab-pane fade show active" id="orders">
-                                <h3>Orders</h3>
+                                <h3 class="greet" key="order">Orders</h3>
                                 <div class="table-responsive">
                                     <table class="table">
                                         <thead>
                                             <tr>
-                                                <th>Order</th>
-                                                <th>Product</th>
-                                                <th>Status</th>
-                                                <th>Shipment Type</th>
-                                                <th>Option</th>
+                                                <th class="greet" key="order">Order</th>
+                                                <th class="greet" key="product">Product</th>
+                                                <th class="greet" key="status">Status</th>
+                                                <th class="greet" key="shipping_type">Shipment Type</th>
+                                                <th class="greet" key="action">Action</th>
                                                 	 	 	
                                             </tr>
                                         </thead>
@@ -95,7 +95,7 @@
                                                         {% endfor %}
 
                                                             {% if not OrderInfo.Status == 'Completed' %}
-                                                            <a href="/CancelOrder/{{productsList.id}}/" class="btn btn-danger" style="color: white;" >Cancel Order</a>
+                                                            <a href="/CancelOrder/{{productsList.id}}/" class="btn btn-danger greet" key="cancelOrder" style="color: white;" >Cancel Order</a>
                                                             {% endif %}
                                                         </td>
                                                             
@@ -111,7 +111,7 @@
                           
                         
                             <div class="tab-pane fade" id="account-details">
-                                <h3>Account details </h3>
+                                <h3 class="greet" key="account_detail">Account details </h3>
                                 <div class="login">
                                     <div class="login_form_container">
                                         <div class="account_login_form">
@@ -123,51 +123,50 @@
                                                
                                                 <br>
                                                 <hr><br>
-                                                <label>First Name</label>
-                                                <input type="text" value="{{customerInfo.0.FirstName}}" name="firstName" required >
+                                                <label class="greet" key="firstname">First Name</label>
+                                                <input class="greet" key="lastname" type="text" value="{{customerInfo.0.FirstName}}" name="firstName" required >
                                                 <label>Last Name</label>
-                                                <input type="text"  value="{{customerInfo.0.LastName}}" name="lastName" required >
-                                                <label>Email</label>
+                                                <input  type="text"  value="{{customerInfo.0.LastName}}" name="lastName" required >
+                                                <label class="greet" key="email">Email</label>
                                                 <input type="email"  value="{{customerInfo.0.Email}}" name="Email" required >
-                                                <label>Phone</label>
+                                                <label class="greet" key="phone">Phone</label>
                                                 <input type="number"  value="{{customerInfo.0.Phone}}" name="Phone" required >
-                                                <label>Password</label>  
+                                                <label class="greet" key="password">Password</label>  
                                                 <input type="password"  value="{{ customerInfo.0.Password }}" name="Password" required >
                                                 
-                                                <label>Address</label>  
+                                                <label class="greet" key="address">Address</label>  
                                                 <input type="text"  value="{{ customerInfo.0.Address }}" name="Address" required >
                                                 
 
-                                              
-                                                
+
                                                 <br>
-                                                <label>Payment Method <span>*</span></label>
+                                                <label class="greet" key="paymethod">Payment Method <span>*</span></label>
                                                 <select name="PaymentMethod" id="paymentMethod" class="form-control"
                                                     onchange="myFunction5()">
-                                                    <option value="No">Select and option</option>
-                                                    <option value="Credit Card">Credit Card</option>
-                                                    <option value="Phone">Phone</option>
-                                                    <option value="Cash on Delivery">Cash on Delivery</option>
+                                                    <option class="greet" key="option" value="No">Select and option</option>
+                                                    <option class="greet" key="credit" value="Credit Card">Credit Card</option>
+                                                    <option class="greet" key="phone" value="Phone">Phone</option>
+                                                    <option class="greet" key="cash" value="Cash on Delivery">Cash on Delivery</option>
                                                 </select>
                                                 <br>
                                                 <div id="accountNumber">
                                                     <p>
-                                                        <label>Account Number <span>*</span></label>
+                                                        <label class="greet" key="account_no">Account Number</label> <span>*</span>
                                                         <input type="text" name="AccountNo">
                                                     </p>
                                                     <p>
-                                                        <label>CVC <span>*</span></label>
+                                                        <label class="greet" key="cvc" >CVC </label><span>*</span>
                                                         <input type="number" name="CVC">
                                                     </p>
                                                     <p>
-                                                        <label>Expire Date <span>*</span></label>
+                                                        <label class="greet" key="expire_date">Expire Date </label><span>*</span>
                                                         <input type="Date" name="ExpireDate">
                                                     </p>
                                                 </div>
                         
                                                 <div id="phonenumber">
                                                     <p>
-                                                        <label>Phone Number <span>*</span></label>
+                                                        <label class="greet" key="phone">Phone Number </label><span>*</span>
                                                         <input type="phone" name="PaymentPhone">
                                                     </p>
                         
@@ -175,7 +174,8 @@
                                                 
                                              
                                                 <div class="save_button primary_btn default_button">
-                                                    <input type="submit" value="Save" class="btn btn-primary btn-lg" >
+                                                    <button  type="submit" class="btn btn-primary btn-lg greet" key="send" >
+                                                        </button>
                                                 </div>
                                             </form>
                                         </div>
