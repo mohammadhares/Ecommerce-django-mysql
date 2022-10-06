@@ -1,0 +1,119 @@
+{% extends 'Dashboard/public/seller_layout.html' %}
+{% load static %}
+{% block body_data %}
+{% load humanize %}
+<section class="content">
+    <div class="container-fluid">
+        <div class="block-header">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <ul class="breadcrumb breadcrumb-style ">
+                        <li class="breadcrumb-item">
+                        </li>
+                        <li class="breadcrumb-item bcrumb-1">
+                            <a href="/Dashboard">
+                                <i class="fas fa-home"></i> Home</a>
+                        </li>
+                        <li class="breadcrumb-item active">Manage Accounts</li>
+                    </ul>
+                    <div class="row clearfix">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="card">
+                                <div class="header">
+                                    <h2>
+                                        <strong>Admin</strong> Orders
+                                    </h2>
+                                </div>
+                                <div class="body table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Order</th>
+                                                <th>Product</th>
+                                                <th>Status</th>
+                                                <th>Customer</th>
+                                                <th>Shipment Type</th>
+                                                <th>Option</th>
+                                                	 	 	
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for OrderInfo in OrderInfo %}
+                                                {% for productsList in productsList %}
+                                                    {% if productsList.id == OrderInfo.Products_id_id  %}
+                                                        <tr>
+                                                            <td>{{ forloop.counter }}</td>
+                                                            <td> 
+                                                                <img src="/media/{{productsList.Image}}" alt="" style="width:100px; height: 100px;border-radius: 100px;"  > 
+                                                                <h4>{{ productsList.Product_Name }}</h4>
+                                                                <h4>${{ productsList.Price }}</h4>
+                                                            </td>
+                                                            <td>{{OrderInfo.Status}}<br>{{OrderInfo.Message}}<br>{{OrderInfo.created|naturaltime}}</td>
+                                                            {% for Customer in Customer %}
+                                                                {% if Customer.id == OrderInfo.Customers_id_id  %}
+                                                            <td>{{Customer.FirstName}} {{Customer.LastName}}<br>{{Customer.Phone}}</td>
+                                                                {% endif %}
+                                                            {% endfor %}
+
+                                                            {% for shipmentList in shipmentList %}
+                                                                {% if OrderInfo.Shipping_id_id ==  shipmentList.id %}
+                                                                    <td>{{shipmentList.Shipping_Type}} - {{shipmentList.Shipping_Zone}}: {{shipmentList.Price}}</td>
+                                                                {% endif %}
+                                                            {% endfor %}    
+
+                                                            <td>
+                                                                {% for RefundsInfo in RefundsInfo %}
+                                                                    {% if RefundsInfo.Products_id_id  == OrderInfo.Products_id_id %}
+                                                                        <p>{{RefundsInfo.Reason}}</p>
+                                                                        <p><b>Refund Status:</b> {{RefundsInfo.Refund_Status}}</p>
+                                                                        <p><b>Request On:</b> {{RefundsInfo.created|naturaltime}}</p>
+                                                                        <a href="Change_Refund_Status/Accept/{{RefundsInfo.Products_id_id}}/" 
+                                                                            class="btn btn-primary" style="color: white;" >Accept Refund
+                                                                        </a>
+                                                                        <a href="Change_Refund_Status/Reject/{{RefundsInfo.Products_id_id}}/" 
+                                                                            class="btn btn-danger" style="color: white;" >Cancel Refund
+                                                                        </a>
+                                                                    {% else %}
+
+                                                                    {% if OrderInfo.Status == 'On Hold'  %}
+                                                                        <a href="/changeOrderStatus/Processing/{{ OrderInfo.id }}/" class="btn btn-green">Process</a>
+                                                                    {% endif %}
+
+                                                                    {% if OrderInfo.Status == 'Processing'  %}
+                                                                    <a href="/changeOrderStatus/Shipping/{{ OrderInfo.id }}/" class="btn btn-danger">Shipping Starts</a>
+                                                                    {% endif %}
+
+                                                                    {% if OrderInfo.Status == 'Shipping'  %}
+                                                                    <a href="/changeOrderStatus/Transit/{{ OrderInfo.id }}/" class="btn btn-primary">Transit</a>
+                                                                    {% endif %}
+
+                                                                    {% if OrderInfo.Status == 'Transit'  %}
+                                                                    <a href="/changeOrderStatus/Completed/{{ OrderInfo.id }}/" class="btn btn-default">Completed</a>
+                                                                    {% endif %}
+
+                                                                    {% if OrderInfo.Status == 'Completed'  %}
+                                                                    <a href="" class="btn btn-default">Delivered</a>
+                                                                    {% endif %}
+
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                            </td>
+                                                            
+                                                        </tr>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% endfor %}
+                                         
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock body_data %}

@@ -49,6 +49,18 @@ urlpatterns = [
     path('Shop',views.Shop, name="Shop"),
     path('SearchCategory/<str:id>/',views.SearchCategory, name="SearchCategory"),
     path('about',views.About, name="About"),
+    path('remove-cart/<str:id>', views.removeCart , name="remove"),
+
+
+    # Seller Account
+    path('seller', views.sellerAccount , name="seller.account"),
+    path('registerseller', views.registerSeller , name="seller.register"),
+    path('loginseller', views.loginSeller , name="seller.login"),
+    path('seller-home', views.sellerHome , name="seller.home"),
+
+    path('seller-products', views.showProduct , name="seller.products"),
+    path('seller-orders', views.showSelOrders , name="seller.orders"),
+    path('seller-logout', views.sellerLogout , name="seller.logout"),
     
 
 ]

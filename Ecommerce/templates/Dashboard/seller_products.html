@@ -1,0 +1,446 @@
+{% extends 'Dashboard/public/seller_layout.html' %}
+{% load static %}
+{% block body_data %}
+{% load humanize %}
+<section class="content">
+    <div class="container-fluid">
+        <div class="block-header">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <ul class="breadcrumb breadcrumb-style ">
+                        <li class="breadcrumb-item">
+                        </li>
+                        <li class="breadcrumb-item bcrumb-1">
+                            <a href="/">
+                                <i class="fas fa-home"></i> Home</a>
+                        </li>
+                        <li class="breadcrumb-item active">Manage Products</li>
+                    </ul>
+                    <div class="row clearfix">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="card">
+                                <div class="header">
+                                    <h2>
+                                        <strong>Manage</strong> Products
+                                    </h2>
+                                    <ul class="header-dropdown m-r--2">
+                                        <li class="dropdown">
+                                            <a href="#" onClick="return false;" class="dropdown-toggle"
+                                                data-toggle="dropdown" role="button" aria-haspopup="true"
+                                                aria-expanded="false">
+                                                <i class="material-icons">more_vert</i>
+                                            </a>
+                                            <ul class="dropdown-menu pull-right">
+                                                <li>
+                                                    <button type="button" class="btn btn-primary btn-block"
+                                                        data-toggle="modal" data-target="#NewProductModal">New Product
+                                                    </button>
+                                                    <button type="button" class="btn btn-danger btn-block"
+                                                        data-toggle="modal" data-target="#NewCategoryModal">New Category
+                                                    </button>
+                                                    <button type="button" class="btn btn-danger btn-block"
+                                                    data-toggle="modal" data-target="#UploadGalleryModal">Add Gallery
+                                                </button>
+
+                                                </li>
+
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="body">
+                                    <ul class="collapsible">
+                                        {% for Categories_ in Categories_ %}
+                                        <li>
+                                            <div class="collapsible-header">
+                                                {% if request.session.Permission == 7 %}
+                                                <a onclick="deleteMsg('Are You Sure?');" href="/DeleteFunction/Category/{{ Categories_.id }}/" ><i class="fa fa-trash"  ></i></a>
+                                                <a href="#"  data-toggle="modal" data-target="#NewCategoryModal{{Categories_.id}}" ><i class="fa fa-edit"  ></i></a>
+                                                {% endif %}
+                                                <b> {{ Categories_.name }} </b> &nbsp;&nbsp; <p
+                                                    style="font-size: 10;color:silver;padding-top: 5px;">
+                                                    {{Categories_.created|naturaltime }}</p>
+                                          
+                                            </div>
+                                            <div class="collapsible-body">
+                                                <div class="body table-responsive">
+                                                    <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>#</th>
+                                                                <th>Image</th>
+                                                                <th>Product Details</th>
+                                                                <th>Price</th>
+                                                                <th>Quantity</th>
+                                                                <th>Stock</th>
+                                                                <th>Datetime</th>
+                                                                {% if request.session.Permission == 7 %}
+                                                                <th>Action</th>
+                                                                {% endif %}
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {% for Products_ in Products_ %}
+                                                            {% if Products_.categories_id_id == Categories_.id %}
+
+                                                            <tr>
+                                                                <td>{{ forloop.counter }}</td>
+                                                                <td><img src="../media/{{ Products_.Image }}" alt=""
+                                                                        width="100px" height="100px"
+                                                                        style="border-radius: 100px;">
+                                                                    {% for Gallery in Gallery %}
+                                                                        {% if  Products_.id == Gallery.Products_id_id %}
+                                                                        <img src="../media/{{ Gallery.Image }}" alt=""
+                                                                        width="60px" height="60px"
+                                                                        style="border-radius: 100px;">
+                                                                        {% if request.session.Permission == 7 %}
+                                                                        <a href="/DeleteFunction/gallery/{{Gallery.id}}/"><i class="fa fa-trash" ></i></a>
+                                                                        {% endif %}
+                                                                        {% endif %}
+                                                                    {% endfor %}
+                                                                    
+                                                                    </td>
+                                                                <td>{{ Products_.Product_Name }}<br> {{Products_.Description }}</td>
+                                                                <td>${{ Products_.Price }}</td>
+                                                                <td>{{ Products_.Quantity }}</td>
+                                                                <td>{{ Products_.Stock }}</td>
+                                                                <td>{{ Products_.created|naturaltime }}</td>
+                                                                <td>
+                                                                    <a onclick="deleteMsg('Are You Sure?');" href="/DeleteFunction/product/{{ Products_.id }}/" class="fa fa-trash"></a> &nbsp;&nbsp;
+                                                                    <a href="#" data-toggle="modal" data-target="#NewProductModal{{Products_.id}}" class="fa fa-edit"></a>&nbsp;&nbsp;
+                                                                </td>
+                                                            </tr>
+
+                                                            {% endif %}
+                                                            {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        {% endfor %}
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+    <div class="modal fade" id="UploadGalleryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalGrid"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalGrid">Upload Gallery</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/UploadGallery" method="POST" enctype="multipart/form-data" >{% csrf_token %}
+                    <div class="modal-body">
+                        <div class="container-fluid">
+
+                            <div class="row clearfix">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-float">
+                                        <br>
+                                        <div class="form">
+                                            <label class="form-label">Category</label>
+                                            <select name="ProductID" id="" class="form-control">
+                                                {% for Products_ in Products_ %}
+                                                <option value="{{ Products_.id }}">{{ Products_.Product_Name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <br>
+
+                                        <div class="form-line">
+                                            <input type="file" class="form-control" name="Images" required multiple >
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info waves-effect">Upload</button>
+                        <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% for Categories_ in Categories_ %}
+<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+    <div class="modal fade" id="NewCategoryModal{{Categories_.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalGrid"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalGrid">Category</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/UpdateCategory/{{Categories_.id}}/" method="POST">{% csrf_token %}
+                    <div class="modal-body">
+                        <div class="container-fluid">
+
+                            <div class="row clearfix">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <input type="text" class="form-control" name="CategoryName" value="{{Categories_.name}}" required>
+                                            <label class="form-label">Category Name</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info waves-effect">Update</button>
+                        <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+
+<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+    <div class="modal fade" id="NewCategoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalGrid"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalGrid">Category</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/AddCategory" method="POST">{% csrf_token %}
+                    <div class="modal-body">
+                        <div class="container-fluid">
+
+                            <div class="row clearfix">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <input type="text" class="form-control" name="CategoryName" required>
+                                            <label class="form-label">Category Name</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info waves-effect">Save</button>
+                        <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% for Products_ in Products_ %}
+
+<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+    <div class="modal fade" id="NewProductModal{{Products_.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalGrid"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalGrid">Update Product</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/UpdateProduct/{{Products_.id}}/" method="POST" enctype="Multipart/form-data">{% csrf_token %}
+                    <div class="modal-body">
+                        <div class="container-fluid">
+
+                            <div class="row clearfix">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-float">
+                                        <img src="/media/{{Products_.Image}}" width="200px" height="200px" style="border-radius: 100px;" alt="">
+                                        <br>
+                                        <div class="form">
+                                            <label class="form-label">Category</label>
+                                            <select name="CategoryID" id="" class="form-control">
+                                                {% for Categories_ in Categories_ %}
+                                                <option value="{{ Categories_.id }}"  {% if Products_.categories_id_id == Categories_.id  %}  selected {% endif %} >{{ Categories_.name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <br>
+
+                                        <div class="form-line">
+                                            <input type="text" class="form-control" name="ProductName" value="{{Products_.Product_Name}}" required>
+                                            <label class="form-label">Product Name</label>
+                                        </div>
+                                        <br>
+                                        <div class="form-line">
+                                            <textarea name="Description" class="form-control" id="" cols="30"
+                                                rows="5"  >{{Products_.Description}}</textarea>
+                                            <label class="form-label">Description</label>
+                                        </div>
+
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-line">
+                                                    <input type="number" class="form-control" name="Price" value="{{Products_.Price}}" required>
+                                                    <label class="form-label">Price</label>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-line">
+                                                    <input type="number" class="form-control" value="{{Products_.Quantity}}"  name="Quantity" required>
+                                                    <label class="form-label">Quantity</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="form">
+                                            <label class="form-label">InStock</label>
+                                            <select name="InStock" id="" class="form-control">
+                                                <option value="Yes" {% if Products_.Stock == 'Yes' %}  selected {% endif %} >Yes</option>
+                                                <option value="No" {% if Products_.Stock == 'No' %}  selected {% endif %} >No</option>
+                                            </select>
+                                        </div>
+                                        <br>
+
+                                        <div class="form-line">
+                                            <label class="form-label">Image</label>
+                                            <input type="file" class="form-control" name="Images">
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info waves-effect">Save</button>
+                        <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endfor %}
+
+
+
+
+<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+    <div class="modal fade" id="NewProductModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalGrid"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalGrid">New Product</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/AddProduct" method="POST" enctype="Multipart/form-data">{% csrf_token %}
+                    <div class="modal-body">
+                        <div class="container-fluid">
+
+                            <div class="row clearfix">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-float">
+                                        <br>
+                                        <div class="form">
+                                            <label class="form-label">Category</label>
+                                            <select name="CategoryID" id="" class="form-control">
+                                                {% for Categories_ in Categories_ %}
+                                                <option value="{{ Categories_.id }}">{{ Categories_.name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <br>
+
+                                        <div class="form-line">
+                                            <input type="text" class="form-control" name="ProductName" required>
+                                            <label class="form-label">Product Name</label>
+                                        </div>
+                                        <br>
+                                        <div class="form-line">
+                                            <textarea name="Description" class="form-control" id="" cols="30"
+                                                rows="5"></textarea>
+                                            <label class="form-label">Description</label>
+                                        </div>
+
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-line">
+                                                    <input type="number" class="form-control" name="Price" required>
+                                                    <label class="form-label">Price</label>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-line">
+                                                    <input type="number" class="form-control" name="Quantity" required>
+                                                    <label class="form-label">Quantity</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="form">
+                                            <label class="form-label">InStock</label>
+                                            <select name="InStock" id="" class="form-control">
+                                                <option value="Yes">Yes</option>
+                                                <option value="No">No</option>
+                                            </select>
+                                        </div>
+                                        <br>
+
+                                        <div class="form-line">
+                                            <label class="form-label">Image</label>
+                                            <input type="file" class="form-control" name="Image" required>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info waves-effect">Save</button>
+                        <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock body_data %}

@@ -16,6 +16,7 @@ class Meta:
 
 class Categories(models.Model):
     id = models.AutoField(primary_key=True)
+    seller_id = models.CharField(max_length=200, default=0)
     name = models.CharField(max_length=100)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -27,6 +28,7 @@ class Products(models.Model):
     id = models.AutoField(primary_key=True)
     categories_id = models.ForeignKey(
         "Categories", on_delete=models.CASCADE)
+    seller_id = models.CharField(max_length=200, default=0)
     Product_Name = models.CharField(max_length=200)
     Description = models.CharField(max_length=500)
     Price = models.CharField(max_length=200)
@@ -134,3 +136,17 @@ class Contacts(models.Model):
 
 class Meta:
     db_table = 'Contacts'
+
+
+class Seller(models.Model):
+    id = models.AutoField(primary_key=True)
+    firstname = models.CharField(max_length=200)
+    lastname = models.CharField(max_length=200)
+    email = models.CharField(max_length=200)
+    password = models.CharField(max_length=200)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+class Meta:
+    db_table = 'Seller'
+

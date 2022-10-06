@@ -66,7 +66,7 @@
                     <li class="dropdown user_profile">
                         <a href="#" onClick="return false;" class="dropdown-toggle" data-toggle="dropdown"
                             role="button">
-                            <img src="{% static   '/avatar1.png' %}" width="32" height="32" alt="User">
+                            <img src="{% static   '/dassets/images/user.jpg'%}" width="32" height="32" alt="User">
                         </a>
                         <ul class="dropdown-menu pullDown">
                             <li class="body">
@@ -106,82 +106,43 @@
                     <li class="sidebar-user-panel active">
                         <div class="user-panel">
                             <div class=" image">
-                                <img src="{% static   '/avatar1.png' %}" class="img-circle user-img-circle"
+                                <img src="{% static   '/avatar1.png'%}" class="img-circle user-img-circle"
                                     alt="User Image" />
                             </div>
                         </div>
                         <div class="profile-usertitle">
-                            <div class="sidebar-userpic-name"> {{ request.session.LoginName }} </div>
-                            <div class="profile-usertitle-job ">{% if request.session.Permission == 7 %} Admin {% else %} Manager {% endif %}</div>
+                            <div class="sidebar-userpic-name"> {{ request.session.firstname }} </div>
+                            <div class="profile-usertitle-job ">{{ request.session.email }} </div>
                         </div>
                     </li>
 
-                    {% if request.session.admin_id %}
-                    <li {% if request.path == '/Dashboard' %}  class="active" {% endif %}>
-                        <a href="/Dashboard">
-                            <i class="fas fa-tachometer-alt"></i>
-                            <span>Home</span>
-                        </a>
-                    </li>
+                        <li>
+                            <a href="/seller-home">
+                                <i class="fas fa-home"></i>
+                                <span>General</span>
+                            </a>
+                        </li>
 
-                    <li {% if request.path == '/AllProducts' %}  class="active" {% endif %}>
-                        <a href="/AllProducts">
-                            <i class="fas fa-shopping-cart"></i>
-                            <span>Manage Products</span>
-                        </a>
-                    </li>
+                        <li {% if request.path == '/seller-products' %}  class="active" {% endif %}>
+                            <a href="/seller-products">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span>Manage Products</span>
+                            </a>
+                        </li>
 
-                    <li {% if request.path == '/CustomersAccounts' %}  class="active" {% endif %}>
-                        <a href="/CustomersAccounts">
-                            <i class="fas fa-users"></i>
-                            <span>Manage Customers</span>
-                        </a>
-                    </li>
+                        <li {% if request.path == '/seller-orders' %}  class="active" {% endif %}>
+                            <a href="/seller-orders">
+                                <i class="fas fa-list"></i>
+                                <span>Manage Orders</span>
+                            </a>
+                        </li>
 
-                    <li {% if request.path == '/AdminOrders' %}  class="active" {% endif %}>
-                        <a href="/AdminOrders">
-                            <i class="fas fa-list"></i>
-                            <span>Manage Orders</span>
-                        </a>
-                    </li>
-
-                    <li  {% if request.path == '/AdminBlogs' %}  class="active" {% endif %} >
-                        <a href="/AdminBlogs">
-                            <i class="fab fa-blogger"></i>
-                            <span>Manage Blogs</span>
-                        </a>
-                    </li>
-
-                    <li  {% if request.path == '/AdminContacts' %}  class="active" {% endif %} >
-                        <a href="/AdminContacts">
-                            <i class="fab fa-rocketchat"></i>
-                            <span>Manage Contacts</span>
-                        </a>
-                    </li>
-
-                    <li  {% if request.path == '/AdminShipping' %}  class="active" {% endif %} >
-                        <a href="/AdminShipping">
-                            <i class="fas fa-truck"></i>
-                            <span>Manage Shipping</span>
-                        </a>
-                    </li>
-
-                    <li {% if request.path == '/AdminAccounts' %}  class="active" {% endif %}>
-                        <a href="/AdminAccounts">
-                            <i class="fas fa-mail-bulk"></i>
-                            <span>Manage Accounts</span>
-                        </a>
-                    </li>
-                    
-                    <li>
-                        <a href="/Dashboard_Logout">
-                            <i class="fas fa-sign-out-alt"></i>
-                            <span>Logout</span>
-                        </a>
-                    </li>
-
-                    {% endif %}
-
+                        <li>
+                            <a href="/seller-logout">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Logout</span>
+                            </a>
+                        </li>
                 </ul>
             </div>
             <!-- #Menu -->

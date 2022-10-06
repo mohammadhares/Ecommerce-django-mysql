@@ -90,6 +90,7 @@ def Dashboard_Logout(request):
     del request.session['AdminEmail']
     del request.session['Permission']
     del request.session['LoginName']
+    del request.session['admin_id']
     return redirect('Dashboard_Login')
 
 
@@ -109,6 +110,7 @@ def Admin_Login(request):
                 password = Info.Password
                 if password == Password:
                     request.session['AdminEmail'] = Email
+                    request.session['admin_id'] = Info.id
                     request.session['Permission'] = Info.Permission
                     request.session['LoginName'] = Info.Username
                     Admin_Account.objects.filter(
@@ -204,26 +206,33 @@ def AllProducts(request):
     Gallery = Galleries.objects.all()
     return render(request, "Dashboard/Products.html", {'Categories_': Categories_, 'Products_': Products_, 'Gallery': Gallery})
 
-@Admin_login_required
+
 def AddCategory(request):
     if request.method == "POST":
-        saveCategory = Categories(name=request.POST['CategoryName'])
+        seller_id = 0
+        if(request.session['seller_id']):
+            seller_id = request.session['seller_id']
+        
+        saveCategory = Categories(name=request.POST['CategoryName'], seller_id= seller_id)
         saveCategory.save()
         messages.success(request, "Category Added")
-        return redirect('AllProducts')
+        return redirect(request.META.get('HTTP_REFERER'))
     else:
-        return redirect('AllProducts')
+        return redirect(request.META.get('HTTP_REFERER'))
 
-@Admin_login_required
 def AddProduct(request):
     if request.method == "POST":
-        saveProduct = Products(Product_Name=request.POST['ProductName'], Description=request.POST['Description'], Price=request.POST['Price'],
+        seller_id = 0
+        if(request.session['seller_id']):
+            seller_id = request.session['seller_id']
+        
+        saveProduct = Products(seller_id=seller_id, Product_Name=request.POST['ProductName'], Description=request.POST['Description'], Price=request.POST['Price'],
                                Quantity=request.POST['Quantity'], Stock=request.POST['InStock'], categories_id_id=request.POST['CategoryID'], Image=request.FILES['Image'])
         saveProduct.save()
         messages.success(request, "Product Added")
-        return redirect('AllProducts')
+        return redirect(request.META.get('HTTP_REFERER'))
     else:
-        return redirect('AllProducts')
+        return redirect(request.META.get('HTTP_REFERER'))
 
 
 
@@ -234,7 +243,6 @@ def Products_details(request, id):
     categInfo = Categories.objects.get(id=product_Category.categories_id_id)
     return render(request, "home/Products_details.html", {'product_info': product_info, 'categInfo': categInfo.name, 'galleryInfo': galleryInfo})
 
-@Admin_login_required
 def UploadGallery(request):
     if request.method == "POST":
         files = request.FILES.getlist('Images')
@@ -243,10 +251,10 @@ def UploadGallery(request):
                 Image=f, Products_id_id=request.POST['ProductID'])
             result.save()
         messages.success(request, "Gallery Uploaded")
-        return redirect('AllProducts')
+        return redirect(request.META.get('HTTP_REFERER'))
     else:
         messages.error(request, "Error")
-        return redirect('AllProducts')
+        return redirect(request.META.get('HTTP_REFERER'))
 
 @Customer_login_required
 def AddOrders(request, productID):
@@ -303,7 +311,6 @@ def AdminOrders(request):
     result = Orders.objects.all().select_related('Products_id')
     return render(request, "Dashboard/AdminOrders.html", {'Customer':Customer, 'OrderInfo': result, 'shipmentList': shipmentList, 'productsList': productsList, 'RefundsInfo': RefundsInfo})
 
-@Admin_login_required
 def Change_Refund_Status(request, status, id):
     if status == 'Accept':
         Refunds.objects.filter(Products_id_id=id).update(
@@ -428,13 +435,11 @@ def DeleteFunction(request, type, id):
     
 
 
-@Admin_login_required
 def UpdateCategory(request, id):
     Categories.objects.filter(id=id).update(name=request.POST['CategoryName'])
     messages.success(request,"Updated")
-    return redirect('AllProducts')
+    return redirect(request.META.get('HTTP_REFERER'))
 
-@Admin_login_required
 def UpdateProduct(request, id):
     info = Products.objects.get(id=id)
     if request.method == "POST":
@@ -448,9 +453,9 @@ def UpdateProduct(request, id):
         info.categories_id_id=request.POST['CategoryID']
         info.save()
         messages.success(request, "Product Updated")
-        return redirect('AllProducts')
+        return redirect(request.META.get('HTTP_REFERER'))
     else:
-        return redirect('AllProducts')
+        return redirect(request.META.get('HTTP_REFERER'))
 
 
 @Admin_login_required
@@ -501,21 +506,97 @@ def EditShipping(request, id):
         messages.success(request,"Added")
         return redirect('AdminShipping')
 
-
-@Admin_login_required
 def changeOrderStatus(request, status, id):
     Orders.objects.filter(id=id).update(Status=status)
     messages.success(request,"Changed")
-    return redirect('AdminOrders')
+    return redirect(request.META.get('HTTP_REFERER'))
+
+def removeCart(request, id):
+    Orders.objects.filter(id=id).delete()
+    messages.success(request,"Product Removed Successfully")
+    return redirect(request.META.get('HTTP_REFERER'))
+
+# Seller
+
+def sellerAccount(request):
+    return render(request, 'home/seller_account.html')
+
+def registerSeller(request):
+    if request.method == "POST":
+        Seller(
+            firstname= request.POST['firstname'],
+            lastname= request.POST['lastname'],
+            email = request.POST['email'],
+            password = request.POST['password']
+        ).save()
+        messages.success(request,"Seller Account Registered")
+        return redirect('seller.account')
+
+    else:
+        messages.success(request,"Seller s Registered")
+        return redirect('seller.account')
 
 
+def loginSeller(request):
+    if request.method == "POST":
+        username = request.POST['email']
+        password = request.POST['password']
+        
+        if Seller.objects.filter(email=username).exists():
+            user = Seller.objects.get(email=username)
+            if user.password == password:
+                request.session['seller']  = 1
+                request.session['seller_id']  = user.id
+                request.session['firstname'] = user.firstname
+                request.session['lastname'] = user.lastname
+                request.session['email'] = user.email
+                messages.success(request, 'Welcome')
+                return redirect('seller.home')
+            else:
+                messages.error(request, "Incorrect Username or Password")
+                return redirect('seller.account')
+        else:
+            messages.error(request, "Incorrect Username or Password")
+            return redirect('seller.account')
+    else:
+        messages.error(request, "Incorrect Username or Password")
+        return redirect('seller.account')
 
 
+def sellerHome(request):
+    productt = Products.objects.all().count()
+    Customer = Customers.objects.all().count()
+    Order = Orders.objects.all().count()
+    Contact = Contacts.objects.all().count()
+    blog = Blog.objects.all().count()
+    AdminAccount = Admin_Account.objects.all().count()
+    Gallery = Galleries.objects.all().count()
+
+    return render(request, "Dashboard/seller_home.html",{'Gallery':Gallery, 'AdminAccount':AdminAccount, 'blog':blog, 'productt':productt,'Customer':Customer,'Order':Order,'Contact':Contact})
 
 
+def showProduct(request):
+    sid = request.session['seller_id']
+    Categories_ = Categories.objects.filter(seller_id=sid).reverse()
+    Products_ = Products.objects.filter(seller_id=sid).reverse()
+    Gallery = Galleries.objects.all()
+    return render(request, "Dashboard/seller_products.html", {'Categories_': Categories_, 'Products_': Products_, 'Gallery': Gallery})
+
+def showSelOrders(request):
+    sid = request.session['seller_id']
+    productsList = Products.objects.filter(seller_id=sid)
+    shipmentList = Shipping.objects.all()
+    RefundsInfo = Refunds.objects.all()
+    Customer = Customers.objects.all()
+
+    result = Orders.objects.all().select_related('Products_id')
+    return render(request, "Dashboard/seller_order.html", {'Customer':Customer, 'OrderInfo': result, 'shipmentList': shipmentList, 'productsList': productsList, 'RefundsInfo': RefundsInfo})
 
 
-
-
-
-
+def sellerLogout(request):
+    del request.session['seller_id']
+    del request.session['firstname']
+    del request.session['lastname']
+    del request.session['email']
+    del request.session['seller']
+    return redirect('seller.account')

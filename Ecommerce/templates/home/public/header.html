@@ -20,6 +20,14 @@
             background-size: cover;
             background-size: 100% 100%;
         }
+
+        #news{
+            display: inline-block;
+            z-index: 9999999999 !important;
+            background-color: #bfbdcd;
+            margin: -100px 700px;
+        }
+
     </style>
 </head>
 
@@ -102,7 +110,7 @@
                                 <span class="cart_quantity">{{basketCount}}</span>
                                 <!--mini cart-->
                                 
-                                <div class="mini_cart direct">
+                                <div class="mini_cart direct " style="overflow-y: scroll;">
                                     <div class="cart_close">
                                         <div class="cart_text">
                                             <h3 class="greet" key="cart">cart</h3>
@@ -116,18 +124,18 @@
                                             {% if orderinfo.Products_id_id == productinfo.id %}
                                     <div class="cart_item">
                                         <div class="cart_img">
-                                            <a href="#"><img src="/media/{{ productinfo.Image }}"
+                                            <a href=""><img src="/media/{{ productinfo.Image }}"
                                                     alt=""></a>
                                         </div>
                                         <div class="cart_info">
-                                            <a href="#">{{productinfo.Product_Name}}</a>
+                                            <a href="">{{productinfo.Product_Name}}</a>
 
                                             <span class="price_cart">${{productinfo.Price}}</span>
                                             <span class="price_cart">{{orderinfo.Message}}</span>
 
                                         </div>
                                         <div class="cart_remove">
-                                            <a href="#"><i class="ion-android-close"></i></a>
+                                            <a href="/remove-cart/{{ orderinfo.id }}"><i class="ion-android-close"></i></a>
                                         </div>
                                     </div>
                                     {% endif %}
@@ -193,7 +201,7 @@
                                         <li ><a class="greet" key="Blog" style="color:white" href="/ViewBlog">Blog</a></li>
                                         <li ><a class="greet" key="Contact" style="color:white" href="/Customer_Contact">Contact</a></li> 
                                         <li ><a class="greet" key="About" style="color:white" href="/about">About Us</a></li> 
-                                       
+                                        <li ><a class="greet" key="Seller" style="color:white" href="/seller">Seller</a></li> 
                                     </ul>
                                 </nav>
                             </div>
@@ -294,6 +302,8 @@
             </div>
         </div>
     </footer>
+
+    
     <!--footer area end-->
     <script src="{% static  '/assets/js/vendor/jquery-3.4.1.min.js' %}"></script>
     <script src="{% static  '/assets/js/popper.js' %}"></script>
@@ -311,6 +321,13 @@
     <script src="{% static  '/assets/js/jquery.cookie.js' %}"></script>
     <script src="{% static  '/assets/js/bpopup.js' %}"></script>
     <script src="{% static  '/assets/js/main.js' %}"></script>
+
     <script src="{% static  '/localization/localization.js'%}"></script>
+    <script>
+        function closeNews()
+        {
+            document.querySelector("#news").style.display = "none";
+        }
+    </script>
 </body>
 </html>
